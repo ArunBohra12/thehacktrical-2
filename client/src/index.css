@@ -24,3 +24,8 @@ h6 {
   box-sizing: border-box;
   overflow-x: hidden;
 }
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
