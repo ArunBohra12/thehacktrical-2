@@ -1,17 +1,20 @@
 import express from 'express';
-import cors from 'cors'
+import cors from 'cors';
+import morgan from 'morgan';
 
-import authRouter from './routes/authRoute.js'
+import showsRouter from './routes/showsRoutes.js';
+
+import authRouter from './routes/authRoute.js';
 
 const app = express();
+
+// Requests logging
+app.use(morgan('dev'));
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', authRouter)
-
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+app.use('/api/auth', authRouter);
+app.use('/api/shows', showsRouter);
 
 export default app;
