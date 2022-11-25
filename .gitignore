@@ -4,3 +4,5 @@ dist
 build
 
 config.env
+
+package-lock.json

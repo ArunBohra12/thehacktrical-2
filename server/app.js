@@ -8,10 +8,8 @@ import authRouter from './routes/authRoute.js';
 
 const app = express();
 
-// development logging
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('combined'));
-}
+// Requests logging
+app.use(morgan('dev'));
 
 app.use(cors());
 app.use(express.json());

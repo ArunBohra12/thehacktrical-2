@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "SET NODE_ENV=development && nodemon server.js",
+    "start:prod": "SET NODE_ENV=production && node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
