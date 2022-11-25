@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
+import mongoose from 'mongoose';
+import validator from 'validator';
+import bcrypt from 'bcryptjs'
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please tell us your name!'],
     trim: true,
-    maxlength: [40, 'A tour name must have less or equal then 40 characters'],
-    minlength: [2, 'A tour name must have more or equal then 10 characters'],
+    minlength: [2, 'A userName name must have more or equal then 10 characters'],
   },
   email: {
     type: String,
@@ -42,6 +42,22 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+  
+    this.password = await bcrypt.hash(this.password, 12);
+  
+    this.passwordConfirm = undefined;
+    next();
+  });
+
+userSchema.methods.correctPassword = async function(
+    candidatePassword,
+    userPassword
+  ) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+  };
+
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;
