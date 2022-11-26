@@ -2,5 +2,59 @@ import styled from 'styled-components';
 
 export const Section = styled.div`
   width: 100vw;
-  /* height: 100; */
+  /* min-height: calc(100vh - 4rem); */
+  padding: 20px;
+  /* display: flex; */
+  background: #070a0c;
+  box-sizing: border-box;
 `;
+
+export const SlideShow = styled.div`
+ position: relative;
+  height: 40vh;
+  /* border: 4px solid white; */
+  /* margin-top: 2rem; */
+
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+
+  .swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+`
+
+export const RecentShows = styled.div``
+
+export const RecentPlays = styled.div``
