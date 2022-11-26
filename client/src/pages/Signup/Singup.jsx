@@ -1,25 +1,45 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
 import { Section, RightContainer, RegisterForm, RadioButtons, RadioButton, Buttons } from './Signup.styles';
+import { theatrifyUser } from '../../Utils/GlobalConstants';
 
 const Singup = () => {
   const [userData, setUserData] = useState({
     email: '',
     name: '',
     password: '',
-    confirmPassword: '',
-  })
+    passwordConfirm: '',
+  });
 
-  const [userType, setUserType] = useState('user')
+  const [userType, setUserType] = useState('user');
 
-  const inputhandler = (e) => {
-    setUserData({...userData, [e.target.name]: e.target.value})
-  }
-  const signupHandler = e => {
+  const navigate = useNavigate();
+
+  const inputhandler = e => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+  const signupHandler = async e => {
     e.preventDefault();
-    console.log(userData);
-    console.log(userType);
+    // console.log(userData);
+    // console.log(userType);
+    const {data} = await axios.post('http://localhost:8000/api/auth/signup', {
+      userType,
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      passwordConfirm: userData.passwordConfirm
+    });
+    console.log(data.user);
+    if (data.status === 'success') {
+      localStorage.setItem(theatrifyUser, JSON.stringify(data.user))
+      if (userType === 'org') {
+        navigate('/moreinfo')
+      } else {
+        navigate('/')
+      }
+    }
   };
   return (
     <Section>
@@ -33,25 +53,53 @@ const Singup = () => {
             <label htmlFor='email' className='upperInputs'>
               Email
             </label>
-            <input type='email' name='email' placeholder='example@gmail.com' className='grey-inputs' value={userData.email} onChange={inputhandler} />
+            <input
+              type='email'
+              name='email'
+              placeholder='example@gmail.com'
+              className='grey-inputs'
+              value={userData.email}
+              onChange={inputhandler}
+            />
             <label htmlFor='name' className='upperInputs'>
               Name
             </label>
-            <input type='text' name='name' placeholder='Adarsh Dubey' className='grey-inputs' value={userData.name} onChange={inputhandler}  />
+            <input
+              type='text'
+              name='name'
+              placeholder='Adarsh Dubey'
+              className='grey-inputs'
+              value={userData.name}
+              onChange={inputhandler}
+            />
             <label htmlFor='password' className='upperInputs'>
               Password
             </label>
-            <input type='password' name='password' placeholder='*******' className='grey-inputs' value={userData.password} onChange={inputhandler}  />
-            <label htmlFor='confirmPassword' className='upperInputs'>
+            <input
+              type='password'
+              name='password'
+              placeholder='*******'
+              className='grey-inputs'
+              value={userData.password}
+              onChange={inputhandler}
+            />
+            <label htmlFor='passwordConfirm' className='upperInputs'>
               Confirm Password
             </label>
-            <input type='password' name='confirmPassword' placeholder='*******' className='grey-inputs' value={userData.confirmPassword} onChange={inputhandler}  />
+            <input
+              type='password'
+              name='passwordConfirm'
+              placeholder='*******'
+              className='grey-inputs'
+              value={userData.passwordConfirm}
+              onChange={inputhandler}
+            />
             <RadioButtons>
-              <RadioButton onClick={() => setUserType('user')} >
-                <input type='radio' name='audience' value={userType} checked={userType === 'user'}  />
+              <RadioButton onClick={() => setUserType('user')}>
+                <input type='radio' name='audience' value={userType} checked={userType === 'user'} />
                 <label htmlFor='audience'>Audience</label>
               </RadioButton>
-              <RadioButton onClick={() => setUserType('org')}  >
+              <RadioButton onClick={() => setUserType('org')}>
                 <input type='radio' name='organisation' value={userType} checked={userType === 'org'} />
                 <label htmlFor='organisation'>Organisation</label>
               </RadioButton>

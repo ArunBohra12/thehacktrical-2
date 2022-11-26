@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
 import 'swiper/css';
@@ -7,7 +7,9 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 
 import Navbar from '../../components/Navbar/Navbar';
-import { RecentShows, Section, SlideShow } from './Home.styles';
+import { RecentShows, Section, SlideShow, TheatreTiles } from './Home.styles';
+import { showsData } from '../../components/HomeComp/Shows';
+import ShowTile from '../../components/HomeComp/ShowTitle/ShowTile';
 
 const Home = () => {
   return (
@@ -39,6 +41,15 @@ const Home = () => {
         </SlideShow>
         <RecentShows>
           <h1>Upcoming Theatres</h1>
+          <TheatreTiles>
+            {
+              showsData.map((show,index) => {
+                return (
+                  <ShowTile key={index} img={show.pic} title={show.name} venue={show.venue} />
+                )
+              })
+            }
+          </TheatreTiles>
         </RecentShows>
       </Section>
       ;
