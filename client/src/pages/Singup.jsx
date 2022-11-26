@@ -16,38 +16,6 @@ const RightContainer = styled.div`
   color: #ffffff;
 `;
 
-// const Heading = styled.div`
-//   /* border: 1px solid red; */
-//   text-align: left;
-//   margin-left: 3rem;
-//   margin-top: 2rem;
-//   h2,
-//   h4 {
-//     font-family: 'Urbanist';
-//     font-style: normal;
-//     color: #ffffff;
-//   }
-
-//   h2 {
-//     font-family: 'Urbanist';
-//     font-style: normal;
-//     font-weight: 700;
-//     font-size: 34px;
-//     line-height: 53px;
-//     color: #ffffff;
-//     margin-bottom: 0.8rem;
-//   }
-
-//   h4 {
-//     font-weight: 500;
-//     font-size: 22px;
-
-//     a {
-//       text-decoration: underline;
-//     }
-//   }
-// `;
-
 const RegisterForm = styled.div`
   /* border: 1px solid red; */
   margin-left: 4rem;

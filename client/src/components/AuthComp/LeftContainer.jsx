@@ -34,7 +34,7 @@ const Section = styled.div`
   h4 {
     text-align: left;
     margin-left: 2rem;
-    width: 80%;
+    width: 70%;
     font-family: 'Urbanist';
     font-style: normal;
     font-weight: 500;
