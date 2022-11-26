@@ -1,9 +1,9 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom'
-import Singup from './pages/Singup';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import TellUsMore from './pages/TellUsMore';
+import Singup from './pages/Signup/Singup';
+import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+import TellUsMore from './pages/TellUsMore/TellUsMore';
 
 function App() {
   return (

@@ -121,3 +121,17 @@ export const restrictToOrg = catchAsync(async (req, res, next) => {
   req.org = currentOrg;
   next();
 });
+
+export const updateOrgInfo = catchAsync(async (req,res) => {
+  const { orgVision, photo } = req.body;
+
+  const orgData = await Organisation.findByIdAndUpdate(req.params.orgId, {
+    photo,
+    orgVision
+  })
+
+  res.json({
+    status: 'success',
+    orgData
+  })
+})

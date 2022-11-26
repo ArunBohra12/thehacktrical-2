@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section, Logo } from 'styled-components'
+import { Section, Logo } from './LeftContainer.styles'
 
 const LeftContainer = ({ heading, subHeading }) => {
   return (

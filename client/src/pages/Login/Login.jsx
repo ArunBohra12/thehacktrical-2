@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import LeftContainer from '../components/AuthComp/LeftContainer';
+import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
 import { Section, RightContainer, Heading, LoginForm } from './Login.styles';
 
 
