@@ -1,4 +1,5 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 import catchAsync from './catchAsync.js';
 import User from '../models/userModel.js';
 import Organisation from '../models/orgModel.js';
@@ -70,4 +71,53 @@ export const login = catchAsync(async (req, res, next) => {
   }
 
   createSendToken(user, 200, res);
+});
+
+const getTokenFromRequest = req => {
+  let token = '';
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  return token;
+};
+
+export const restrictToUser = catchAsync(async (req, res, next) => {
+  let token = getTokenFromRequest(req);
+
+  if (!token) {
+    return next(new Error('You are not logged in.'));
+  }
+
+  // validate token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // check user exists
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(new Error('User does not exist'));
+  }
+
+  // GRANT ACCESS TO THE PROTECTED ROUTE
+  req.user = currentUser;
+  next();
+});
+
+export const restrictToOrg = catchAsync(async (req, res, next) => {
+  let token = getTokenFromRequest(req);
+
+  if (!token) {
+    return next(new Error('You are not logged in.'));
+  }
+
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // check org exists
+  const currentOrg = await Organisation.findById(decoded.id);
+  if (!currentOrg) {
+    return next(new Error('Organisation does not exist'));
+  }
+
+  req.org = currentOrg;
+  next();
 });
