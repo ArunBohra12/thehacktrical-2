@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import catchAsync from './catchAsync.js';
 import Video from '../models/videosModel.js';
 import { checkPathExists } from '../utils/fileSystem.js';
-import path from 'path';
 
 // MULTER FUNCTIONS
 const multerStorage = multer.diskStorage({
