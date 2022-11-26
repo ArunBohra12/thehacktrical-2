@@ -1,22 +1,19 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftContainer from '../components/AuthComp/LeftContainer';
 
-const Section = styled.div`
+export const Section = styled.div`
   width: 100vw;
   padding: 20px;
   display: flex;
   background: #070a0c;
 `;
 
-const RightContainer = styled.div`
+export const RightContainer = styled.div`
   /* border: 1px solid red; */
   width: calc(60vw - 20px);
   color: #ffffff;
 `;
 
-const Heading = styled.div`
+export const Heading = styled.div`
   /* border: 1px solid red; */
   text-align: left;
   margin-left: 3rem;
@@ -48,7 +45,7 @@ const Heading = styled.div`
   }
 `;
 
-const LoginForm = styled.div`
+export const LoginForm = styled.div`
   /* border: 1px solid red; */
   margin-left: 4rem;
   margin-top: 2rem;
@@ -96,7 +93,7 @@ const LoginForm = styled.div`
       }
     }
 
-    button{
+    button {
       padding: 12px 40px;
       background: #0a1e8f;
       border-radius: 8px;
@@ -110,43 +107,3 @@ const LoginForm = styled.div`
     }
   }
 `;
-
-const Login = () => {
-  const navigate = useNavigate()
-  const loginHandler = (e) => {
-    e.preventDefault();
-    alert('yo')
-    navigate('/')
-  }
-  return (
-    <Section>
-      <LeftContainer
-        heading='Welcome back!'
-        subHeading='A platform where you can buy and sell tickest for local or online events.'
-      />
-      <RightContainer>
-        <Heading>
-          <h2>Sign In</h2>
-          <h4>
-            Dont have an account? <Link to='/'>Sign Up!</Link>
-          </h4>
-        </Heading>
-        <LoginForm>
-          <form onSubmit={loginHandler} >
-            <label htmlFor='email' className='upperInputs'>
-              Email
-            </label>
-            <input type='email' name='email' placeholder='example@gmail.com' className='grey-inputs' />
-            <label htmlFor='password' className='upperInputs'>
-              Password
-            </label>
-            <input type='password' name='password' placeholder='*******' className='grey-inputs' />
-            <button type="submit">Log in to account</button>
-          </form>
-        </LoginForm>
-      </RightContainer>
-    </Section>
-  );
-};
-
-export default Login;

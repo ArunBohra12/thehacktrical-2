@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import LeftContainer from '../components/AuthComp/LeftContainer';
+import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
 
 const Section = styled.div`
   width: 100vw;
@@ -82,11 +82,11 @@ const InfoForm = styled.div`
 `;
 
 const TellUsMore = () => {
-    const navigate = useNavigate();
-    const orgInfoHandler = (e) => {
-        e.preventDefault();
-        navigate('/')
-    }
+  const navigate = useNavigate();
+  const orgInfoHandler = e => {
+    e.preventDefault();
+    navigate('/');
+  };
   return (
     <Section>
       <LeftContainer
@@ -99,7 +99,7 @@ const TellUsMore = () => {
             <input type='file' name='' id='' />
             <label htmlFor='vision'>Tell us about your groups vision</label>
             <textarea name='vision' id='' placeholder='Our group aims for and provides to the audience ...'></textarea>
-            <button type="submit">Finish Set-up</button>
+            <button type='submit'>Finish Set-up</button>
           </form>
         </InfoForm>
       </RightContainer>

@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const Section = styled.div`
+export const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -45,7 +44,7 @@ const Section = styled.div`
   }
 `;
 
-const Logo = styled.div`
+export const Logo = styled.div`
   position: absolute;
   top: 3.5rem;
   left: 2rem;
@@ -58,17 +57,3 @@ const Logo = styled.div`
     font-size: 22px;
   }
 `;
-
-const LeftContainer = ({ heading, subHeading }) => {
-  return (
-    <Section>
-      <Logo>
-        <h3>theatrify</h3>
-      </Logo>
-      <h1>{heading}</h1>
-      <h4>{subHeading}</h4>
-    </Section>
-  );
-};
-
-export default LeftContainer;
