@@ -1,9 +1,11 @@
+import fs from 'fs';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 
 import catchAsync from './catchAsync.js';
 import Video from '../models/videosModel.js';
 import { checkPathExists } from '../utils/fileSystem.js';
+import path from 'path';
 
 // MULTER FUNCTIONS
 const multerStorage = multer.diskStorage({
@@ -92,4 +94,36 @@ export const getOneVideoDetails = catchAsync(async (req, res) => {
     status: 'success',
     data: video,
   });
+});
+
+export const streamVideo = catchAsync(async (req, res, next) => {
+  const range = req.headers.range;
+  if (!range) {
+    return res.status(400).json({ status: 'fail', message: "Can't process the video right now!" });
+  }
+
+  const { video } = await Video.findById(req.params.videoId);
+  const videoPath = `public/${video.replace(`${req.protocol}://${req.get('host')}/`, '')}`;
+
+  const videoSize = fs.statSync(videoPath).size;
+
+  const CHUNK_SIZE = 10 ** 6; // 1MB
+  const start = Number(range.replace(/\D/g, ''));
+  const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+  // Create headers
+  const contentLength = end - start + 1;
+  const headers = {
+    'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+    'Accept-Ranges': 'bytes',
+    'Content-Length': contentLength,
+    'Content-Type': 'video/mp4',
+  };
+
+  // HTTP Status 206 for Partial Content
+  res.writeHead(206, headers);
+
+  // create video read stream for this particular chunk
+  const videoStream = fs.createReadStream(videoPath, { start, end });
+  videoStream.pipe(res);
 });
