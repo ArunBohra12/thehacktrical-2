@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,52 +11,49 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Please provide your email"],
+    required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
     type: String,
-    default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+    default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
   },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8,
-    select: false
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
-      validator: function(el) {
+      validator: function (el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same!'
-    }
+      message: 'Passwords are not the same!',
+    },
   },
   credits: {
     type: Number,
-    default: 500    
-  }
+    default: 500,
+  },
 });
 
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return next();
-  
-    this.password = await bcrypt.hash(this.password, 12);
-  
-    this.passwordConfirm = undefined;
-    next();
-  });
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
 
-userSchema.methods.correctPassword = async function(
-    candidatePassword,
-    userPassword
-  ) {
-    return await bcrypt.compare(candidatePassword, userPassword);
-  };
+  this.password = await bcrypt.hash(this.password, 12);
+
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 

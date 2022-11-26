@@ -16,6 +16,11 @@ const showsSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please provide the show location'],
   },
+  organisation: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Organisation',
+    required: true,
+  },
   date: {
     type: Date,
     required: [true, 'Please provide a date for the show'],
@@ -28,6 +33,10 @@ const showsSchema = mongoose.Schema({
   price: {
     type: Number,
     required: [true, 'Please provide the price for the show'],
+  },
+  bookings: {
+    type: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    select: false,
   },
 });
 
