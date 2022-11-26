@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
 
-import { CreditScore, Logo, Section, UserSubSection } from './Navbar.styles';
+import { CreditScore, Logo, Menu, MenuItem, Section, UserSubSection } from './Navbar.styles';
 import { theatrifyUser } from '../../Utils/GlobalConstants';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [userData, setUserData] = useState({});
@@ -33,6 +34,20 @@ const Navbar = () => {
             labelClassName='label'
           />
         </CreditScore>
+        <Menu>
+        <MenuItem>
+        <Link to="/allshows" >Shows</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/allvideos" >Events</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/credits" >Buy Credits</Link>
+        </MenuItem>
+        <MenuItem>
+        <Link to="/me" >My Profile</Link>
+        </MenuItem>
+        </Menu>
       </UserSubSection>
     </Section>
   );

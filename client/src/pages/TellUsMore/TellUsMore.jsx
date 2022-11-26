@@ -1,92 +1,43 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
-
-const Section = styled.div`
-  width: 100vw;
-  padding: 20px;
-  display: flex;
-  background: #070a0c;
-`;
-
-const RightContainer = styled.div`
-  /* border: 1px solid red; */
-  width: calc(60vw - 20px);
-  color: #ffffff;
-`;
-
-const InfoForm = styled.div`
-  margin-left: 4rem;
-  margin-top: 1rem;
-  display: flex;
-  border: 1px solid red;
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-
-    label {
-      font-family: 'Urbanist';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 22px;
-      /* line-height: 31px; */
-      color: #ffffff;
-    }
-  }
-
-  textarea {
-    padding: 16px 24px;
-    gap: 10px;
-    width: 664px;
-    height: 253px;
-    background: #151a1e;
-    border-radius: 8px;
-    font-family: 'Urbanist';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 26px;
-    line-height: 31px;
-    color: #667085;
-    margin: 0.5rem 0 1rem 0;
-
-    &::placeholder {
-      font-family: 'Urbanist';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      color: #3e4245;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  button {
-    margin-top: 1rem;
-    padding: 12px 40px;
-    background: #0a1e8f;
-    border-radius: 8px;
-    font-family: 'Urbanist';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    /* line-height: 31px; */
-    color: #ffffff;
-    cursor: pointer;
-  }
-`;
+import { InfoForm, RightContainer, Section } from './TellUsMore.styles';
 
 const TellUsMore = () => {
-  const navigate = useNavigate();
-  const orgInfoHandler = e => {
+  const [orgData, setorgData] = useState({
+    orgId: '',
+    orgToken: '',
+    orgVision: '',
+    photo: '',
+  });
+
+  const orgImageInput = useRef(null)
+  const navigate = useNavigate(); 
+  const location = useLocation();
+
+  useEffect(() => {
+    setorgData({...orgData, orgId: location.state.id, orgToken: location.state.token})
+  }, [])
+
+  const orgInfoHandler = async (e) => {
     e.preventDefault();
-    navigate('/');
+    const formData = new FormData();
+    formData.append('photo', orgImageInput.current.files[0]);
+    formData.append('orgVision', orgData.orgVision)
+    // console.log(orgData);
+    const {data} = await axios.patch(`http://localhost:8000/api/auth/${orgData.orgId}/orginfo`, formData,
+    {
+      headers: {
+        Authorization: `Bearer ${orgData.orgToken}`
+      }
+    });
+    console.log(data);
+    if (data.status === 'success') {
+      navigate('/');
+    }
   };
+
   return (
     <Section>
       <LeftContainer
@@ -96,9 +47,18 @@ const TellUsMore = () => {
       <RightContainer>
         <InfoForm>
           <form onSubmit={orgInfoHandler}>
-            <input type='file' name='' id='' />
-            <label htmlFor='vision'>Tell us about your groups vision</label>
-            <textarea name='vision' id='' placeholder='Our group aims for and provides to the audience ...'></textarea>
+            <input
+              type='file'
+              name='photo'
+              ref={orgImageInput}
+            />
+            <label htmlFor='orgVision'>Tell us about your groups vision</label>
+            <textarea
+              name='orgVision'
+              placeholder='Our group aims for and provides to the audience ...'
+              value={orgData.orgVision}
+              onChange={e => setorgData({ ...orgData, [e.target.name]: e.target.value })}
+            ></textarea>
             <button type='submit'>Finish Set-up</button>
           </form>
         </InfoForm>

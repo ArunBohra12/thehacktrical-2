@@ -20,15 +20,15 @@ export const Logo = styled.h3`
 `;
 
 export const UserSubSection = styled.div`
-border: 1px solid white;
-width: 50vw;
+/* border: 1px solid white; */
+width: 55vw;
 display: flex;
 align-items: center;
-justify-content: space-between;
+justify-content: space-around;
 `
 
 export const CreditScore = styled.div`
-  width: 20vw;
+  width: 16vw;
   /* margin: 0 auto; */
   /* box-sizing: border-box; */
   transition: all 0.2s ease;
@@ -67,3 +67,17 @@ export const CreditScore = styled.div`
     font-size: 0px;
   }
 `;
+
+export const Menu = styled.ul`
+display: flex;
+width: 30vw;
+align-items: center;
+justify-content: space-between;
+margin-right: 3rem;
+/* border: 1px solid white; */
+`
+
+export const MenuItem = styled.li`
+color: #ffffff;
+list-style: none;
+`

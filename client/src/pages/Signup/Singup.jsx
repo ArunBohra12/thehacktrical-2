@@ -31,11 +31,12 @@ const Singup = () => {
       password: userData.password,
       passwordConfirm: userData.passwordConfirm
     });
-    console.log(data.user);
+    console.log(data);
+    data.user.token = data.token
     if (data.status === 'success') {
       localStorage.setItem(theatrifyUser, JSON.stringify(data.user))
       if (userType === 'org') {
-        navigate('/moreinfo')
+        navigate('/moreinfo', {state:{id: data.user._id, token: data.user.token}})
       } else {
         navigate('/')
       }
