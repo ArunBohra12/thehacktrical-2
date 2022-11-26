@@ -26,15 +26,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 export const signup = catchAsync(async (req, res) => {
-  if (req.body.userType === 'user') {
-    const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm,
-    });
-    createSendToken(newUser, 201, res);
-  } else if (req.body.userType === 'org') {
+  if (req.body.userType === 'org') {
     const newUser = await Organisation.create({
       name: req.body.name,
       email: req.body.email,
@@ -43,6 +35,14 @@ export const signup = catchAsync(async (req, res) => {
     });
     createSendToken(newUser, 201, res);
   }
+
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+  });
+  createSendToken(newUser, 201, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -57,10 +57,10 @@ export const login = catchAsync(async (req, res, next) => {
 
   let user;
 
-  if (req.body.userType === 'user') {
-    user = await User.findOne({ email }).select('+password');
-  } else if (req.body.userType === 'org') {
+  if (req.body.userType === 'org') {
     user = await Organisation.findOne({ email }).select('+password');
+  } else {
+    user = await User.findOne({ email }).select('+password');
   }
 
   if (!user || !(await user.correctPassword(password, user.password))) {
