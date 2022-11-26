@@ -24,7 +24,9 @@ const Home = () => {
             modules={[Navigation, Pagination, Mousewheel, Keyboard]}
             className='mySwiper'
           >
-            <SwiperSlide>Slide 1</SwiperSlide>
+            <SwiperSlide>
+              <img src="https://images.unsplash.com/photo-1489011397388-494518edf378?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" alt="" />
+            </SwiperSlide>
             <SwiperSlide>Slide 2</SwiperSlide>
             <SwiperSlide>Slide 3</SwiperSlide>
             <SwiperSlide>Slide 4</SwiperSlide>
@@ -36,7 +38,7 @@ const Home = () => {
           </Swiper>
         </SlideShow>
         <RecentShows>
-          
+          <h1>Upcoming Theatres</h1>
         </RecentShows>
       </Section>
       ;

@@ -11,7 +11,9 @@ export const Section = styled.div`
 
 export const SlideShow = styled.div`
  position: relative;
-  height: 40vh;
+  height: 50vh;
+  width: 90vw;
+  margin: 0 auto;
   /* border: 4px solid white; */
   /* margin-top: 2rem; */
 
@@ -19,7 +21,7 @@ export const SlideShow = styled.div`
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #000;
-  margin: 0;
+  /* margin: 0; */
   padding: 0;
 
   .swiper {
