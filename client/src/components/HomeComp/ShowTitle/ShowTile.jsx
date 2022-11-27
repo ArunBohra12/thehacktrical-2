@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Section } from './ShowTile.styles'
 
-const ShowTile = ({id, img, title, venue, description, price, date, organisation}) => {
+const ShowTile = ({id, img, title, venue, description, price, date}) => {
   const navigate = useNavigate()
   const accessVideoHandler = () => {
-      navigate('/bookshow', {state:{id, img, title, venue, description, price, date, organisation}})        
+      navigate('/bookshow', {state:{id, img, title, venue, description, price, date}})        
   }
 
   return (

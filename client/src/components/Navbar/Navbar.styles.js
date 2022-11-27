@@ -8,6 +8,7 @@ export const Section = styled.div`
   justify-content: space-between;
   /* border: 1px solid white; */
   background: #070a0c;
+  overflow-y: hidden;
   /* background: lightblue; */
 `;
 
@@ -64,6 +65,7 @@ export const ProfileDetails = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
+margin-right: 2.5rem;
 /* border: 1px solid white; */
 
 img{
@@ -73,15 +75,25 @@ height: 46px;
 object-fit: cover;
 cursor: pointer;
 }
+
 `
 
 export const Credits = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
+margin-right: 1.5rem;
 
 svg{
   width: 38px;
 height: 38px;
+}
+
+h3{
+  font-family: 'Urbanist';
+font-style: normal;
+font-weight: 600;
+font-size: 22px;
+color: #FFFFFF;
 }
 `

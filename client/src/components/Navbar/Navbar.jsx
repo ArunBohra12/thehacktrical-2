@@ -3,6 +3,9 @@ import { Credits, Logo, Menu, MenuItem, ProfileDetails, Section, UserSubSection 
 import { theatrifyUser } from '../../Utils/GlobalConstants';
 import { Link } from 'react-router-dom';
 
+export const updateNavbar = () => {
+
+}
 
 export const CreditSvg = () => {
   return (
@@ -16,15 +19,14 @@ export const CreditSvg = () => {
 const Navbar = () => {
   const [userData, setUserData] = useState({});
 
+  // const [shouldUpdateNav, setShouldUpdateNav] = useState(false)
+
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchUserData() {
       const userData = JSON.parse(localStorage.getItem(theatrifyUser));
-      // console.log(userData);
       setUserData(userData);
-      // console.log((userData.credits/500)*100);
-      // setLoading(false);
     }
     fetchUserData();
   }, []);
@@ -51,7 +53,7 @@ const Navbar = () => {
           {userData.userType !== 'org' ? (
             <Credits>
               <CreditSvg/>
-              <h3>{userData.credits}</h3>
+              <h3 id="userCredits" >{userData.credits}</h3>
             </Credits>
           ) : null}
           <Link to="/me" >

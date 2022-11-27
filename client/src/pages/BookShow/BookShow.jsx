@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import { showsData } from '../../components/HomeComp/Shows';
 import Navbar, { CreditSvg } from '../../components/Navbar/Navbar'
+import { theatrifyUser } from '../../Utils/GlobalConstants';
 import { CheckoutForm, Pay, Price, Section, VideoSummary } from './BookShow.styles';
 
 const BookShow = () => {
@@ -15,6 +18,12 @@ const BookShow = () => {
     date: '',
     // organisation: ''
   })
+
+  const [userData, setuserData] = useState({})
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem(theatrifyUser));
+    setuserData(userData)
+  }, [])
 
   const location = useLocation();
 
@@ -33,9 +42,23 @@ const BookShow = () => {
     // const data = axios.get('')
   }, []);
 
+  
+
   const ticketCheckouthandler = async e => {
     e.preventDefault();
-    alert('checkout');
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    }
+    const {data} = await axios.post(`http://localhost:8000/api/shows/${showDetails.id}/bookTicket`, {}, config)
+    console.log(data);
+    // data.user.token = userData.token
+    console.log(userData.credits);
+    let Credit = userData.credits - showDetails.price
+    userData.credits = Credit
+    localStorage.setItem(theatrifyUser, JSON.stringify(userData))
   };
 
   return (
