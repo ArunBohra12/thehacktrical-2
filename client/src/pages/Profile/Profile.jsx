@@ -53,7 +53,9 @@ const Profile = () => {
           </div>
         </div>
       </Header>
-      <Videos>
+      {
+        userData.userType !== 'org' ?     
+        <Videos>
         <h2>Accessed Videos</h2>
         <VideoGrid>
           {accessedVideos.map((video, index) => {
@@ -65,7 +67,8 @@ const Profile = () => {
             );
           })}
         </VideoGrid>
-      </Videos>
+      </Videos> : null
+      }
       <Section>
         {userData.userType === 'org' ? (
           <OrgButtons>
