@@ -8,6 +8,8 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+router.get('/:id', userController.getUser)
+
 // need to move below to its own organisation controller
 router.patch(
   '/:orgId/orginfo',
