@@ -36,22 +36,6 @@ const Home = () => {
     <>
       <Navbar/>
       <Section>
-        <SlideShow>
-          <Swiper
-            cssMode={true}
-            navigation={true}
-            pagination={true}
-            mousewheel={true}
-            keyboard={true}
-            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-            className='mySwiper'
-          >
-            <SwiperSlide>
-              <img src="https://images.unsplash.com/photo-1489011397388-494518edf378?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" alt="" />
-            </SwiperSlide>
-            <SwiperSlide>Slide 2</SwiperSlide>
-          </Swiper>
-        </SlideShow>
         <RecentShows>
           <h1 className='heading'>Upcoming Theatre Shows</h1>
           <TheatreTiles>
