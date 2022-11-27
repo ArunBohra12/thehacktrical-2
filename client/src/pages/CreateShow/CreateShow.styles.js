@@ -42,7 +42,7 @@ textarea {
     font-size: 24px;
   }
 
-  .thumbnail-btn {
+  .input-btn {
     position: relative;
     background-color: #283BA7;
     padding: 12px 24px;

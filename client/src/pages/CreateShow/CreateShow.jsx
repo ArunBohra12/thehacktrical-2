@@ -49,7 +49,7 @@ const CreateShow = () => {
           <label htmlFor="name" className="label">Event Name</label>
           <input type='text' name='name' id='name' value={showDetails.name} onChange={inputHandler} placeholder="A cool name for your event" />
           <label htmlFor="thumbnail" className="label">Event Thumbnail</label>
-          <div className="thumbnail-btn">
+          <div className="input-btn">
           <input type="file" ref={thumbnailInput} id="thumbnail" />Choose a file</div>
           <label htmlFor="location" className="label">Event Location</label>
           <input type='text' name='location' id='location' value={showDetails.location} onChange={inputHandler} />
