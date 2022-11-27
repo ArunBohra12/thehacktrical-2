@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
 import { Section, RightContainer, Heading, LoginForm } from './Login.styles';
 
 
 const Login = () => {
+  const [loginData, setloginData] = useState({
+    email: '',
+    password: ''
+  })
   const navigate = useNavigate();
   const loginHandler = e => {
     e.preventDefault();
@@ -29,11 +33,11 @@ const Login = () => {
             <label htmlFor='email' className='upperInputs'>
               Email
             </label>
-            <input type='email' name='email' placeholder='example@gmail.com' className='grey-inputs' />
+            <input type='email' name='email' placeholder='example@gmail.com' className='grey-inputs' value={loginData.email}  />
             <label htmlFor='password' className='upperInputs'>
               Password
             </label>
-            <input type='password' name='password' placeholder='*******' className='grey-inputs' />
+            <input type='password' name='password' placeholder='*******' className='grey-inputs' value={loginData.password} />
             <button type='submit'>Log in to account</button>
           </form>
         </LoginForm>

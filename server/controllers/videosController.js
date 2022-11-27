@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import catchAsync from './catchAsync.js';
 import Video from '../models/videosModel.js';
 import { checkPathExists } from '../utils/fileSystem.js';
+import User from '../models/userModel.js';
 
 // MULTER FUNCTIONS
 const multerStorage = multer.diskStorage({
@@ -125,4 +126,37 @@ export const streamVideo = catchAsync(async (req, res, next) => {
   // create video read stream for this particular chunk
   const videoStream = fs.createReadStream(videoPath, { start, end });
   videoStream.pipe(res);
+});
+
+export const accessVideo = catchAsync(async (req, res, next) => {
+  const currentUser = req.user;
+  const video = await Video.findById(req.params.videoId);
+
+  if (!video) {
+    return next(new Error("Video can't be found"));
+  }
+
+  if (req.user.credits < video.price) {
+    return next(new Error("You don't have enough credits on your account"));
+  }
+
+  const user = await User.findById(currentUser._id).select('+accessedVideos');
+  if (user.accessedVideos.includes(video._id)) {
+    return res.status(200).json({
+      status: 'success',
+      data: user,
+    });
+  }
+
+  const credits = user.credits - video.price;
+  const newUser = await User.findByIdAndUpdate(
+    currentUser._id,
+    { credits, $addToSet: { accessedVideos: video._id } },
+    { new: true }
+  ).select('+accessedVideos');
+
+  res.status(200).json({
+    status: 'success',
+    data: newUser,
+  });
 });

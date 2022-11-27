@@ -4,7 +4,9 @@ import morgan from 'morgan';
 
 import showsRouter from './routes/showsRoutes.js';
 import authRouter from './routes/authRoute.js';
+import userRouter from './routes/userRoutes.js';
 import videoRouter from './routes/videosRoutes.js';
+import reviewRouter from './routes/reviewRoutes.js';
 
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -22,8 +24,10 @@ app.use(express.json());
 app.use(express.static(__dirname + 'public'));
 
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 app.use('/api/shows', showsRouter);
 app.use('/api/videos', videoRouter);
+app.use('/api/reviews', reviewRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({
