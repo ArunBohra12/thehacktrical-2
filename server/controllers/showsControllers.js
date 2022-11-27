@@ -107,7 +107,7 @@ export const bookShowTicket = catchAsync(async (req, res, next) => {
 
   // charge credits from user
   const newUserCredits = req.user.credits - show.price;
-  await User.findByIdAndUpdate(req.user._id, { credits: newUserCredits });
+  const user = await User.findByIdAndUpdate(req.user._id, { credits: newUserCredits });
 
   // add user to bookings in shows model
   await show.updateOne({ $addToSet: { bookings: req.user._id } });
@@ -115,6 +115,7 @@ export const bookShowTicket = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: show,
+    user
   });
 });
 
