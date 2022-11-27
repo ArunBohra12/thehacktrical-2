@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Section = styled.div`
-width: 100vw;
+width: 90%;
 min-height: 100vh;
+margin: 0 auto;
+margin-top: 4rem;
+
 `
