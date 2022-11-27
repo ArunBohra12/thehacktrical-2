@@ -25,7 +25,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-export const signup = catchAsync(async (req, res) => {
+export const signup = catchAsync(async (req, res, next) => {
   if (req.body.userType === 'org') {
     const newUser = await Organisation.create({
       name: req.body.name,
@@ -33,16 +33,18 @@ export const signup = catchAsync(async (req, res) => {
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
     });
-    createSendToken(newUser, 201, res);
+    return createSendToken(newUser, 201, res);
+  } else if (req.body.userType === 'user') {
+    const newUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+    });
+    return createSendToken(newUser, 201, res);
   }
 
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-  });
-  createSendToken(newUser, 201, res);
+  next(new Error('Please specify a signup type'));
 });
 
 export const login = catchAsync(async (req, res, next) => {
