@@ -1,12 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Section } from './ShowTile.styles'
 
-const ShowTile = ({img, title, venue}) => {
+const ShowTile = ({show}) => {
+  const {photo, name, location} = show;
+  const navigate = useNavigate()
+
+  const navigateToShow = () => {
+    // navigate(`/video/${show._id}`)
+  }
+
   return (
-    <Section>
-        <img src={img} alt="" />
-        <h3>{title}</h3>
-        <h4>{venue}</h4>
+    <Section onClick={() => navigateToShow()}>
+        <img src={photo} alt={name} />
+        <h3>{name}</h3>
+        <h4>{location}</h4>
     </Section>
   )
 }
