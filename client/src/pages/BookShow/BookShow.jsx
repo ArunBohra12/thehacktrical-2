@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import { showsData } from '../../components/HomeComp/Shows';
 import Navbar, { CreditSvg } from '../../components/Navbar/Navbar'
 import { theatrifyUser } from '../../Utils/GlobalConstants';
 import { CheckoutForm, Pay, Price, Section, VideoSummary } from './BookShow.styles';
@@ -18,6 +17,8 @@ const BookShow = () => {
     date: '',
     // organisation: ''
   })
+
+  const [btnText, setBtnText] = useState('Buy Tickets')
 
   const [userData, setuserData] = useState({})
   useEffect(() => {
@@ -59,6 +60,9 @@ const BookShow = () => {
     let Credit = userData.credits - showDetails.price
     userData.credits = Credit
     localStorage.setItem(theatrifyUser, JSON.stringify(userData))
+    if (data.status === 'success') {
+      setBtnText('✨ Sold ✨')
+    }
   };
 
   return (
@@ -83,9 +87,9 @@ const BookShow = () => {
                 <CreditSvg />
                 <span>{showDetails.price} Credits!</span>
               </Price>
-              <h3>You have 200 credits left</h3>
+              <h3>You have {userData.credits} credits left</h3>
             </Pay>
-            <button type='submit'>Buy Tickets</button>
+            <button type='submit'>{btnText}</button>
           </form>
         </CheckoutForm>
       </Section>
