@@ -51,12 +51,17 @@ const UploadVideo = () => {
     <Navbar/>
     <Section>
         <form onSubmit={submitHandler}>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        <textarea name="description" id="" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)} />
-        <input type="file" ref={videoInput} />
-        <input type="file" ref={thumbnailInput} />
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <button type="submit">Upload Video</button>
+        <label htmlFor="name" className="label">Video Name</label>
+        <input type="text" id='name' value={name} onChange={(e) => setName(e.target.value)} />
+        <label htmlFor="description" className="label">Video Description</label>
+        <textarea name="description" id="description" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)} />
+        <label htmlFor="video-file" className="label">Video File</label>
+        <div className="input-btn"><input type="file" id='video-file' ref={videoInput} />Choose video file</div>
+        <label htmlFor="video-thumbnail" className="label">Video Thumbnail</label>
+        <div className="input-btn"><input type="file" id='video-thumbnail' ref={thumbnailInput} />Choose thumbnail image</div>
+        <label htmlFor="price" className="label">Video Price</label>
+        <input type="number" id='price' value={price} onChange={(e) => setPrice(e.target.value)} />
+        <button type="submit" className='main-btn'>Upload Video</button>
         </form>
     </Section>
     </>
