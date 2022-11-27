@@ -11,6 +11,7 @@ import Profile from './pages/Profile/Profile';
 import CreateShow from './pages/CreateShow/CreateShow';
 import UploadVideo from './pages/UploadVideo/UploadVideo';
 import AccessVideo from './pages/AccessVideo/AccessVideo';
+import BookShow from './pages/BookShow/BookShow';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/createshow' element={<CreateShow/>} />
           <Route path='/uploadvideo' element={<UploadVideo/>} />
           <Route path='/accessvideo' element={<AccessVideo/>} />
+          <Route path='/bookshow' element={<BookShow/>} />
         </Routes>
     </div>
   );

@@ -4,6 +4,7 @@ export const Section = styled.div`
 width: 90%;
 border: 1px solid white;
 margin: 0 auto;
+cursor: pointer;
 
 img{
     padding: 0;

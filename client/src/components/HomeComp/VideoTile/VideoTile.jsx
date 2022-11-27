@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Section } from './VideoTitle.styles'
 
-const VideoTile = ({img, title}) => {
+const VideoTile = ({id, img, title, description, price}) => {
     const navigate = useNavigate()
     const accessVideoHandler = () => {
-        navigate('/accessvideo')        
+        navigate('/accessvideo', {state:{videoId: id, videoDescription: description, videoPrice: price, videoName: title, videoImg: img}})        
     }
   return (
     <Section onClick={accessVideoHandler} >
