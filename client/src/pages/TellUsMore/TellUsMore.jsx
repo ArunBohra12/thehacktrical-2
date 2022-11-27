@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
+import { theatrifyUser } from '../../Utils/GlobalConstants';
 import { InfoForm, RightContainer, Section } from './TellUsMore.styles';
 
 const TellUsMore = () => {
@@ -32,6 +33,9 @@ const TellUsMore = () => {
         Authorization: `Bearer ${orgData.orgToken}`
       }
     });
+    data.data.token = orgData.orgToken;
+    data.data.userType = 'org';
+    localStorage.setItem(theatrifyUser, JSON.stringify(data.data))
     console.log(data);
     if (data.status === 'success') {
       navigate('/');

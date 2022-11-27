@@ -7,11 +7,31 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 
 import Navbar from '../../components/Navbar/Navbar';
-import { RecentShows, Section, SlideShow, TheatreTiles } from './Home.styles';
+import { RecentShows, RecentVideos, Section, SlideShow, TheatreTiles, VideoTiles } from './Home.styles';
 import { showsData } from '../../components/HomeComp/Shows';
 import ShowTile from '../../components/HomeComp/ShowTitle/ShowTile';
+import axios from 'axios';
 
 const Home = () => {
+  const [upcomingShows, setupcomingShows] = useState([]);
+  const [recentVideos, setRecentVideos] = useState([]);
+
+  useEffect(() => {
+    async function fetchUpcomingShows () {
+      const {data} = await axios.get('http://localhost:8000/api/shows/upcoming')
+      console.log(data.data);
+      setupcomingShows(data.data)
+    }
+
+    async function fetchVideos () {
+      const {data} = await axios.get('http://localhost:8000/api/videos')
+      console.log(data.data);
+      setRecentVideos(data.data)
+    }
+    fetchUpcomingShows();
+    fetchVideos();
+  }, [])
+  
   return (
     <>
       <Navbar/>
@@ -51,6 +71,18 @@ const Home = () => {
             }
           </TheatreTiles>
         </RecentShows>
+        <RecentVideos>
+          <h1>Recent Videos</h1>
+          <VideoTiles>
+            {
+              showsData.map((show,index) => {
+                return (
+                  <ShowTile key={index} img={show.pic} title={show.name} venue={show.venue} />
+                )
+              })
+            }
+          </VideoTiles>
+        </RecentVideos>
       </Section>
       ;
     </>

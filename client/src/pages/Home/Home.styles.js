@@ -78,4 +78,24 @@ grid-template-columns: auto auto auto auto;
 
 `
 
-export const RecentPlays = styled.div``
+export const RecentVideos = styled.div`
+border: 1px solid white;
+margin: 0 auto;
+margin-top: 3rem;
+width: 90%;
+h1{
+  text-align: left;
+  font-family: 'Urbanist';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+/* margin-left: 2rem; */
+color: #FFFFFF;
+}
+`
+
+export const VideoTiles = styled.div`
+display: grid;
+grid-template-columns: auto auto auto auto;
+
+`

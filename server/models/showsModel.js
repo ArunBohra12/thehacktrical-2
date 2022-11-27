@@ -29,6 +29,9 @@ const showsSchema = mongoose.Schema({
     type: Number,
     required: [true, 'Please provide the price for the show'],
   },
+  staff: {
+    type: [{ name: String, role: String }],
+  },
 });
 
 const Shows = mongoose.model('Shows', showsSchema);

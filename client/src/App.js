@@ -8,6 +8,8 @@ import AllShows from './pages/AllShows/AllShows';
 import AllVideos from './pages/AllVideos/AllVideos';
 import Credits from './pages/Credits/Credits';
 import Profile from './pages/Profile/Profile';
+import CreateShow from './pages/CreateShow/CreateShow';
+import UploadVideo from './pages/UploadVideo/UploadVideo';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path='/allvideos' element={<AllVideos/>} />
           <Route path='/credits' element={<Credits/>} />
           <Route path='/me' element={<Profile/>} />
+          <Route path='/createshow' element={<CreateShow/>} />
+          <Route path='/uploadvideo' element={<UploadVideo/>} />
         </Routes>
     </div>
   );

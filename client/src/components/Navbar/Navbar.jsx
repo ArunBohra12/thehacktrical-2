@@ -13,9 +13,9 @@ const Navbar = () => {
   useEffect(() => {
     async function fetchUserData() {
       const userData = JSON.parse(localStorage.getItem(theatrifyUser));
-      console.log(userData);
+      // console.log(userData);
       setUserData(userData);
-      console.log((userData.credits/500)*100);
+      // console.log((userData.credits/500)*100);
       // setLoading(false);
     }
     fetchUserData();
@@ -36,10 +36,13 @@ const Navbar = () => {
         </CreditScore>
         <Menu>
         <MenuItem>
+        <Link to="/" >Home</Link>
+        </MenuItem>
+        <MenuItem>
         <Link to="/allshows" >Shows</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/allvideos" >Events</Link>
+          <Link to="/allvideos" >Videos</Link>
         </MenuItem>
         <MenuItem>
           <Link to="/credits" >Buy Credits</Link>
