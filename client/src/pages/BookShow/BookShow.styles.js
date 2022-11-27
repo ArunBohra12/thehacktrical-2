@@ -37,6 +37,15 @@ margin-top: 1rem;
 color: #FFFFFF;
 }
 
+h3{
+    font-family: 'Urbanist';
+font-style: normal;
+font-weight: 300;
+font-size: 20px;
+margin-top: 0rem;
+color: #FFFFFF; 
+}
+
 p{
     width: 30vw;
     margin: 0 auto;

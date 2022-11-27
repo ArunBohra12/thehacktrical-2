@@ -56,9 +56,9 @@ const Home = () => {
           <h1 className='heading'>Upcoming Theatre Shows</h1>
           <TheatreTiles>
             {
-              upcomingShows.map((show) => {
+              upcomingShows.map((show,index) => {
                 return (
-                  <ShowTile key={show._id} show={show} />
+                  <ShowTile key={index} id={show._id} img={show.photo} title={show.name} venue={show.location} description={show.description} price={show.price} date={show.date}/>
                 )
               })
             }
@@ -70,7 +70,7 @@ const Home = () => {
             {
               recentVideos.map((video,index) => {
                 return (
-                  <VideoTile key={index} img={video.thumbnail} title={video.name} />
+                  <VideoTile key={index} id={video._id} img={video.thumbnail} title={video.name} price={video.price} description={video.description} />
                 )
               })
             }
