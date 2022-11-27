@@ -6,7 +6,7 @@ export const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   background: #070a0c;
   /* background: lightblue; */
 `;
@@ -17,56 +17,17 @@ export const Logo = styled.h3`
   font-weight: 700;
   font-size: 30px;
   color: #ffffff;
+  margin-left: 4rem;
 `;
 
 export const UserSubSection = styled.div`
 /* border: 1px solid white; */
-width: 55vw;
+width: 50vw;
 display: flex;
 align-items: center;
 justify-content: space-around;
+/* border: 1px solid white; */
 `
-
-export const CreditScore = styled.div`
-  width: 16vw;
-  /* margin: 0 auto; */
-  /* box-sizing: border-box; */
-  transition: all 0.2s ease;
-  /* height: 15px; */
-  /* overflow-y: hidden; */
-  /* overflow: hidden; */
-
-  .wrapper {
-    /* height: 15px; */
-    border: 2px solid #ffffff;
-    border-radius: 25px;
-    width: 100%;
-    position: relative;
-  }
-
-  .container {
-    border-radius: 25px;
-    background-color: inherit;
-    /* background-color: blue; */
-    width: 100%;
-    height: 15px;
-    /* line-height: 0; */
-  }
-
-  .barCompleted {
-    height: 15px;
-    overflow-y: hidden;
-    position: absolute;
-    border-radius: 25px;
-    background: linear-gradient(90deg, #ff5924 0%, #ff0703 100%);
-    width: ${props => props.width};
-  }
-
-  .label {
-    /* line-height: 0; */
-    font-size: 0px;
-  }
-`;
 
 export const Menu = styled.ul`
 display: flex;
@@ -74,10 +35,53 @@ width: 30vw;
 align-items: center;
 justify-content: space-between;
 margin-right: 3rem;
-/* border: 1px solid white; */
+
+
 `
 
 export const MenuItem = styled.li`
 color: #ffffff;
+font-family: 'Urbanist';
+font-style: normal;
+font-weight: 500;
 list-style: none;
+
+&:nth-last-child(1) {
+/* border: 1px solid white; */
+/* padding: 10px; */
+padding: 16px 24px;
+/* gap: 10px; */
+
+/* width: 179px; */
+/* height: 63px; */
+
+background: #151A1E;
+border-radius: 4px;
+}
+`
+
+export const ProfileDetails = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+/* border: 1px solid white; */
+
+img{
+  border-radius: 50%;
+width: 46px;
+height: 46px;
+object-fit: cover;
+cursor: pointer;
+}
+`
+
+export const Credits = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+
+svg{
+  width: 38px;
+height: 38px;
+}
 `

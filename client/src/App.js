@@ -10,6 +10,7 @@ import Credits from './pages/Credits/Credits';
 import Profile from './pages/Profile/Profile';
 import CreateShow from './pages/CreateShow/CreateShow';
 import UploadVideo from './pages/UploadVideo/UploadVideo';
+import AccessVideo from './pages/AccessVideo/AccessVideo';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/me' element={<Profile/>} />
           <Route path='/createshow' element={<CreateShow/>} />
           <Route path='/uploadvideo' element={<UploadVideo/>} />
+          <Route path='/accessvideo' element={<AccessVideo/>} />
         </Routes>
     </div>
   );

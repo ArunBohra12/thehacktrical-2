@@ -7,6 +7,7 @@ import { theatrifyUser } from '../../Utils/GlobalConstants';
 const UploadVideo = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(null);
+  const [description, setDescription] = useState('');
 
   const [orgData, setorgData] = useState({
     orgId: '',
@@ -34,6 +35,7 @@ const UploadVideo = () => {
     formData.append('thumbnail', thumbnailInput.current.files[0]);
     formData.append('name', name);
     formData.append('price', price);
+    formData.append('description', description);
 
     const config = {
       headers: {
@@ -49,9 +51,10 @@ const UploadVideo = () => {
     <Navbar/>
     <Section>
         <form onSubmit={submitHandler}>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <textarea name="description" id="" cols="30" rows="10" value={description} onChange={(e) => setDescription(e.target.value)} />
         <input type="file" ref={videoInput} />
         <input type="file" ref={thumbnailInput} />
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
         <button type="submit">Upload Video</button>
         </form>

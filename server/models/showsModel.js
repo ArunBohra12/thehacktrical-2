@@ -48,7 +48,7 @@ const showsSchema = mongoose.Schema(
 );
 
 showsSchema.virtual('totalLikes').get(function () {
-  const totalLikes = this.likes.reduce((acc, el) => acc + 1, 0);
+  const totalLikes = this.likes?.reduce((acc, el) => acc + 1, 0) ?? 0;
   return totalLikes;
 });
 

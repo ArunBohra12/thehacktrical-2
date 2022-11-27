@@ -11,6 +11,7 @@ import { RecentShows, RecentVideos, Section, SlideShow, TheatreTiles, VideoTiles
 import { showsData } from '../../components/HomeComp/Shows';
 import ShowTile from '../../components/HomeComp/ShowTitle/ShowTile';
 import axios from 'axios';
+import VideoTile from '../../components/HomeComp/VideoTile/VideoTile';
 
 const Home = () => {
   const [upcomingShows, setupcomingShows] = useState([]);
@@ -75,9 +76,9 @@ const Home = () => {
           <h1>Recent Videos</h1>
           <VideoTiles>
             {
-              showsData.map((show,index) => {
+              recentVideos.map((video,index) => {
                 return (
-                  <ShowTile key={index} img={show.pic} title={show.name} venue={show.venue} />
+                  <VideoTile key={index} img={video.thumbnail} title={video.name} />
                 )
               })
             }
