@@ -112,3 +112,20 @@ export const bookShowTicket = catchAsync(async (req, res, next) => {
     data: show,
   });
 });
+
+export const likeAShow = catchAsync(async (req, res, next) => {
+  const { showId } = req.params;
+
+  const show = await Shows.findById(showId);
+
+  if (!show) {
+    return next(new Error('Show does not exist'));
+  }
+
+  const newShow = await Shows.findByIdAndUpdate(showId, { $addToSet: { likes: req.user._id } }, { new: true });
+
+  res.status(200).json({
+    status: 'success',
+    data: newShow,
+  });
+});

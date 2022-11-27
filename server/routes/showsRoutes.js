@@ -6,6 +6,7 @@ import {
   getUpcomingShows,
   deleteShow,
   bookShowTicket,
+  likeAShow,
 } from '../controllers/showsControllers.js';
 import { restrictToOrg, restrictToUser } from '../controllers/authController.js';
 import { getAllShowReviews } from '../controllers/reviewController.js';
@@ -17,8 +18,9 @@ router.get('/upcoming', getUpcomingShows);
 router.route('/').get(getAllShows).post(restrictToOrg, createShow);
 
 router.route('/:showId').delete(deleteShow);
-
 router.get('/:showId/getReviews', getAllShowReviews);
+
+router.patch('/like/:showId', restrictToUser, likeAShow);
 router.post('/:showId/bookTicket', restrictToUser, bookShowTicket);
 
 export default router;
