@@ -27,33 +27,27 @@ Our web app Theatrify is built with features:
 - Backend:  Node.JS and Express.JS
 - Database: MongoDB and Mongoose
 
-
-
 ## 🧠 Challenges we ran into
 
 - Completing the project was a challenge because we had to implement the project by a deadline.
-- It was my first time building a backend with MongoDb , and learning how to use it with frontend.
 - It was a bit difficult to implement the video and file uploads it took a while , but we figured it out .
+- Our designer was very busy in college work, so we had to work late at nights, but somehow we managed to complete sufficient designs and finish the frontend.
+
 
 ## 🏅 Accomplishments that we're proud of
 
 - We are proud of the fact that we were able to complete the project in the given time.
-- We are proud of the fact that we were able to create and implement a fully functional Backend within a short period of time during this project.
+- We are proud of the fact that we were able to create a Backend with a well planned MVC architecture and business model
+- One of our member was new to programming so he learnt how to use Github and using React.js in frontend.
 
 ## 📖 What we learned
 
-- How to use MongoDB with Frontend.
-- How to use Three Js with Maps.
+- We learnt how to stream a video from backend using node.js
+- It was the first time when we used Multer for storing images and video files.
 
 ## 🚀 What's next for THEATRIFY
 
-- Building a mobile app.
-- Adding more 3D models.
-- Adding more features.
+- Improving the Frontend of the application
+- Creating Reviews and Popularity Stats for Shows and Uploaded Videoes
 
-## Related
-
-Here are some related projects
-
-[Awesome README](https://github.com/matiassingers/awesome-readme)
 

@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import ShowTile from '../../components/HomeComp/ShowTitle/ShowTile'
 import Navbar from '../../components/Navbar/Navbar'
-import { Section } from './AllShows.styles'
+import { RecentShows, TheatreTiles } from '../Home/Home.styles'
 
 const AllShows = () => {
   const [allShows, setAllShows] = useState([])
@@ -9,7 +10,6 @@ const AllShows = () => {
   useEffect(() => {
     async function fetchAllShows () {
       const {data} = await axios.get('http://localhost:8000/api/shows');
-      console.log(data.data);
       setAllShows(data.data)
     }
     fetchAllShows()
@@ -17,16 +17,21 @@ const AllShows = () => {
   
   return (
     <>
-    <Navbar/>
-    <Section>
-      {
-        allShows.map((show,index) => {
-          return(
-            <h1>{show.name}</h1>
-          )
-        })
-      }
-    </Section>
+      <Navbar/>
+
+      <RecentShows>
+          <h1>All Shows</h1>
+
+          <TheatreTiles>
+            {
+              allShows.map((show,index) => {
+                return (
+                  <ShowTile key={index} id={show._id} img={show.photo} title={show.name} venue={show.location} description={show.description} price={show.price} date={show.date}/>
+                )
+              })
+            }
+          </TheatreTiles>      
+      </RecentShows>
     </>
   )
 }
