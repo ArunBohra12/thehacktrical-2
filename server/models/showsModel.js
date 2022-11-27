@@ -11,6 +11,10 @@ const showsSchema = mongoose.Schema(
       required: [true, 'Please provide the show name'],
       unique: true,
     },
+    photo: {
+      type: String,
+      required: [true, 'Please provide a show thumbnail'],
+    },
     location: {
       type: String,
       required: [true, 'Please provide the show location'],

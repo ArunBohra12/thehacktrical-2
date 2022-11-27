@@ -1,20 +1,25 @@
 import Shows from '../models/showsModel.js';
 import User from '../models/userModel.js';
+import { multerImageUpload } from '../utils/multer.js';
 import catchAsync from './catchAsync.js';
 
+export const uploadShowImage = multerImageUpload('public/uploads/images', 'show-img').single('photo');
+
 export const createShow = async (req, res) => {
-  const { name, location, date, description, price } = req.body;
-
-  const showObject = {
-    name,
-    location,
-    date,
-    description,
-    price,
-    organisation: req.org._id,
-  };
-
   try {
+    const { name, location, date, description, price } = req.body;
+    const photo = `${req.protocol}://${req.get('host')}/uploads/images/${req.file.filename}`;
+
+    const showObject = {
+      name,
+      photo,
+      location,
+      date,
+      description,
+      price,
+      organisation: req.org._id,
+    };
+
     const show = await Shows.create(showObject);
 
     res.status(201).json({
