@@ -66,3 +66,15 @@ export const webhookCheckout = (req, res, next) => {
 
   res.status(200).json({ received: true });
 };
+
+export const getAllAccessedVideos = catchAsync(async (req, res) => {
+  const user = await User.findById(req.user._id).select('accessedVideos').populate({
+    path: 'accessedVideos',
+    select: '-video',
+  });
+
+  res.status(200).json({
+    status: 200,
+    data: user.accessedVideos,
+  });
+});
