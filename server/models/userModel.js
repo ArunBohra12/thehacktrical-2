@@ -36,6 +36,9 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
+  accessedVideos: {
+    type: [{ type: mongoose.Schema.ObjectId, ref: 'Video' }],
+  },
   credits: {
     type: Number,
     default: 500,
