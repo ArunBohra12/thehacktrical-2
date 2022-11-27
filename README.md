@@ -1,4 +1,4 @@
-# thehacktrical-2
+# theHacktrical-2
 
 
 # THEATRIFY
