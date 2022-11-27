@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-const stripe = new Stripe(config.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 import User from '../models/userModel.js';
 import catchAsync from './catchAsync.js';
