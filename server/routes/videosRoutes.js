@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 router.route('/').get(getAllVideos).post(restrictToOrg, uploadVideoFiles, uploadVideo);
-router.get(':videoId', getOneVideoDetails);
+router.get('/:videoId', getOneVideoDetails);
 router.get('/stream/:videoId', streamVideo);
 router.post('/accessVideo/:videoId', restrictToUser, accessVideo);
 

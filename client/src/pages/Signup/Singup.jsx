@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
 import { Section, RightContainer, RegisterForm, RadioButtons, RadioButton, Buttons } from './Signup.styles';
-import { theatrifyUser } from '../../Utils/GlobalConstants';
+import { apiUrl, theatrifyUser } from '../../Utils/GlobalConstants';
 
 const Singup = () => {
   const [userData, setUserData] = useState({
@@ -22,16 +22,15 @@ const Singup = () => {
   };
   const signupHandler = async e => {
     e.preventDefault();
-    // console.log(userData);
-    // console.log(userType);
-    const {data} = await axios.post('http://localhost:8000/api/auth/signup', {
+
+    const {data} = await axios.post(`${apiUrl}/api/auth/signup`, {
       userType,
       name: userData.name,
       email: userData.email,
       password: userData.password,
       passwordConfirm: userData.passwordConfirm
     });
-    console.log(data);
+
     data.user.token = data.token
     if (data.status === 'success') {
       localStorage.setItem(theatrifyUser, JSON.stringify(data.user))
