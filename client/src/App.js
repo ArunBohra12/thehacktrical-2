@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import Singup from './pages/Signup/Singup';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
@@ -13,25 +13,29 @@ import UploadVideo from './pages/UploadVideo/UploadVideo';
 import AccessVideo from './pages/AccessVideo/AccessVideo';
 import BookShow from './pages/BookShow/BookShow';
 import StreamVideo from './components/videoStream/StreamVideo';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
+      <Navbar />
+      <main className='main'>
         <Routes>
-          <Route path='/register' element={<Singup/>} />
-          <Route path='/login' element={<Login/>} />
-          <Route path='/moreinfo' element={<TellUsMore/>} />
-          <Route path='/' element={<Home/>} />
-          <Route path='/allshows' element={<AllShows/>} />
-          <Route path='/allvideos' element={<AllVideos/>} />
-          <Route path='/credits' element={<Credits/>} />
-          <Route path='/me' element={<Profile/>} />
+          <Route path='/register' element={<Singup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/moreinfo' element={<TellUsMore />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/allshows' element={<AllShows />} />
+          <Route path='/allvideos' element={<AllVideos />} />
+          <Route path='/credits' element={<Credits />} />
+          <Route path='/me' element={<Profile />} />
           <Route path='/stream/:videoId' element={<StreamVideo />} />
-          <Route path='/createshow' element={<CreateShow/>} />
-          <Route path='/uploadvideo' element={<UploadVideo/>} />
-          <Route path='/accessvideo' element={<AccessVideo/>} />
-          <Route path='/bookshow' element={<BookShow/>} />
+          <Route path='/createshow' element={<CreateShow />} />
+          <Route path='/uploadvideo' element={<UploadVideo />} />
+          <Route path='/accessvideo' element={<AccessVideo />} />
+          <Route path='/bookshow' element={<BookShow />} />
         </Routes>
+      </main>
     </div>
   );
 }

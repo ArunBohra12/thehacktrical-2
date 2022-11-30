@@ -1,0 +1,32 @@
+.navbar {
+  background-color: var(--color-dark);
+  padding: 1rem 4rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.navbar-links {
+  margin-left: auto;
+  display: flex;
+  gap: 3rem;
+  margin-right: 2rem;
+}
+
+.profile-image {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+}
+
+.logo {
+  font-family: 'Urbanist';
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.buy-credits {
+  padding: 0.4rem 1rem;
+  background-color: var(--color-primary);
+}

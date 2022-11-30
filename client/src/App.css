@@ -1,12 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+:root {
+  --color-primary: #0a1e8f;
+  --color-dark: #070a0c;
+}
+
+body,
 .App {
-  text-align: center;
-}
-
-body {
-  background-color: #070a0c;
-}
-
-body, .App {
   min-height: 100vh;
   width: 100%;
+  background-color: var(--color-dark);
+  color: #fff;
+}
+
+button {
+  border-radius: 4px;
+}
+
+.main {
+  padding: 0 4rem;
 }
