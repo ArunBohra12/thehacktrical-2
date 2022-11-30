@@ -1,120 +1,94 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
-import { Section, RightContainer, RegisterForm, RadioButtons, RadioButton, Buttons } from './Signup.styles';
-import { apiUrl, theatrifyUser } from '../../Utils/GlobalConstants';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import FormGroup from '../../components/FormGroup/FormGroup';
 
-const Singup = () => {
-  const [userData, setUserData] = useState({
-    email: '',
-    name: '',
-    password: '',
-    passwordConfirm: '',
-  });
+const Signup = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [userType, setUserType] = useState('user');
-
-  const navigate = useNavigate();
-
-  const inputhandler = e => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
-  const signupHandler = async e => {
+  const handleSignup = e => {
     e.preventDefault();
 
-    const {data} = await axios.post(`${apiUrl}/api/auth/signup`, {
-      userType,
-      name: userData.name,
-      email: userData.email,
-      password: userData.password,
-      passwordConfirm: userData.passwordConfirm
-    });
+    const type = document.querySelector('input[name="user-type"]:checked').value;
+    console.log(type);
 
-    data.user.token = data.token
-    if (data.status === 'success') {
-      localStorage.setItem(theatrifyUser, JSON.stringify(data.user))
-      if (userType === 'org') {
-        navigate('/moreinfo', {state:{id: data.user._id, token: data.user.token}})
-      } else {
-        navigate('/')
-      }
-    }
+    // signup api call
   };
+
   return (
-    <Section>
-      <LeftContainer
-        heading='Get started with us!'
-        subHeading='A platform where you can buy and sell tickest for local or online theatre events.'
-      />
-      <RightContainer>
-        <RegisterForm>
-          <form onSubmit={signupHandler}>
-            <label htmlFor='email' className='upperInputs'>
-              Email
-            </label>
-            <input
-              type='email'
-              name='email'
-              placeholder='example@gmail.com'
-              className='grey-inputs'
-              value={userData.email}
-              onChange={inputhandler}
+    <div className='signup-container grid grid-cols-2 gap-x-10 py-4 overflow-hidden overflow-y-scroll'>
+      <div className='welcome rounded-lg p-10 flex flex-col gap-10'>
+        <h2 className='text-2xl font-bold'>theatrify</h2>
+        <h2 className='text-6xl font-bold mt-10'>Get started with us!</h2>
+        <p className='text-xl'>A platform where you can buy and sell tickest for local or online events.</p>
+      </div>
+      <div className='py-4'>
+        <h2 className='text-4xl font-bold mb-5'>Sign Up</h2>
+        <p className='text-2xl'>
+          Already have an account?&nbsp;
+          <Link to='/login' className='underline'>
+            Log In
+          </Link>
+        </p>
+        <form className='mt-2 pr-20' onSubmit={handleSignup}>
+          <FormGroup
+            className='mt-10  text-xl'
+            label='Name'
+            id='signup-name'
+            placeholder='Organization Name'
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <FormGroup
+            className='mt-10  text-xl'
+            label='Email'
+            id='login-email'
+            placeholder='example@gmail.com'
+            type='email'
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <FormGroup
+            className='mt-8 text-xl'
+            label='Password'
+            id='login-password'
+            placeholder='********'
+            type='password'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+
+          <p className='mt-4 text-xl'>Who are you?</p>
+          <div className='flex gap-10 mt-2'>
+            <FormGroup
+              className='flex flex-row-reverse items-center gap-x-4'
+              label='Audience'
+              id='login-audience'
+              type='radio'
+              value='audience'
+              defaultChecked={true}
+              name='user-type'
             />
-            <label htmlFor='name' className='upperInputs'>
-              Name
-            </label>
-            <input
-              type='text'
-              name='name'
-              placeholder='Adarsh Dubey'
-              className='grey-inputs'
-              value={userData.name}
-              onChange={inputhandler}
+
+            <FormGroup
+              className='flex flex-row-reverse items-center gap-x-4'
+              label='Organizer'
+              id='login-organizer'
+              type='radio'
+              value='organizer'
+              name='user-type'
             />
-            <label htmlFor='password' className='upperInputs'>
-              Password
-            </label>
-            <input
-              type='password'
-              name='password'
-              placeholder='*******'
-              className='grey-inputs'
-              value={userData.password}
-              onChange={inputhandler}
-            />
-            <label htmlFor='passwordConfirm' className='upperInputs'>
-              Confirm Password
-            </label>
-            <input
-              type='password'
-              name='passwordConfirm'
-              placeholder='*******'
-              className='grey-inputs'
-              value={userData.passwordConfirm}
-              onChange={inputhandler}
-            />
-            <RadioButtons>
-              <RadioButton onClick={() => setUserType('user')}>
-                <input type='radio' name='audience' value={userType} checked={userType === 'user'} />
-                <label htmlFor='audience'>Audience</label>
-              </RadioButton>
-              <RadioButton onClick={() => setUserType('org')}>
-                <input type='radio' name='organisation' value={userType} checked={userType === 'org'} />
-                <label htmlFor='organisation'>Organisation</label>
-              </RadioButton>
-            </RadioButtons>
-            <Buttons>
-              <button type='submit'>Submit</button>
-              <Link to='/login'>
-                <div>Sign In</div>
-              </Link>
-            </Buttons>
-          </form>
-        </RegisterForm>
-      </RightContainer>
-    </Section>
+          </div>
+
+          <Button type='submit' className='mt-8 text-xl py-2.5'>
+            Create Account
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 };
 
-export default Singup;
+export default Signup;

@@ -7,12 +7,23 @@
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
 :root {
   --color-primary: #0a1e8f;
   --color-dark: #070a0c;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge add Firefox */
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
 }
 
 body,
@@ -21,10 +32,21 @@ body,
   width: 100%;
   background-color: var(--color-dark);
   color: #fff;
+  font-family: 'Urbanist', sans-serif;
 }
 
 button {
   border-radius: 4px;
+}
+
+input {
+  background-color: #151a1e;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+button,
+input {
+  outline: none;
 }
 
 .main {

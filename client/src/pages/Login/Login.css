@@ -1,0 +1,12 @@
+.login-container,
+.signup-container {
+  height: 85vh;
+}
+
+.welcome {
+  background-color: var(--color-primary);
+}
+
+label:has(+ input[type='radio']) {
+  margin-bottom: 0;
+}

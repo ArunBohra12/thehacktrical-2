@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+
 import { ReactComponent as CreditIcon } from '../../assets/SVGs/Credits.svg';
+import Button from '../Button/Button';
 
 import './Navbar.css';
 
@@ -23,7 +25,7 @@ const Navbar = () => {
         <div className='total-credits'>500</div>
       </div>
 
-      <button className='buy-credits'>Buy Credits</button>
+      <Button>Buy Credits</Button>
 
       <Link to='/me'>
         <img
