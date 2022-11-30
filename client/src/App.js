@@ -23,9 +23,9 @@ function App() {
         <Routes>
           <Route path='/register' element={<Singup />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/moreinfo' element={<TellUsMore />} />
+          <Route path='/org-info' element={<TellUsMore />} />
           <Route path='/' element={<Home />} />
-          <Route path='/allshows' element={<AllShows />} />
+          <Route path='/shows' element={<AllShows />} />
           <Route path='/allvideos' element={<AllVideos />} />
           <Route path='/credits' element={<Credits />} />
           <Route path='/me' element={<Profile />} />

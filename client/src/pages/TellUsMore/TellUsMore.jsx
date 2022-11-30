@@ -1,73 +1,63 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import LeftContainer from '../../components/AuthComp/LeftContainer/LeftContainer';
-import { theatrifyUser } from '../../Utils/GlobalConstants';
-import { InfoForm, RightContainer, Section } from './TellUsMore.styles';
+import { useState } from 'react';
+import { useRef } from 'react';
+import { ReactComponent as AddCircle } from '../../assets/SVGs/AddCircle.svg';
+import Button from '../../components/Button/Button';
 
 const TellUsMore = () => {
-  const [orgData, setorgData] = useState({
-    orgId: '',
-    orgToken: '',
-    orgVision: '',
-    photo: '',
-  });
+  const orgImage = useRef(null);
+  const [vision, setVision] = useState('');
 
-  const orgImageInput = useRef(null)
-  const navigate = useNavigate(); 
-  const location = useLocation();
-
-  useEffect(() => {
-    setorgData({...orgData, orgId: location.state.id, orgToken: location.state.token})
-  }, [])
-
-  const orgInfoHandler = async (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('photo', orgImageInput.current.files[0]);
-    formData.append('orgVision', orgData.orgVision)
-    // console.log(orgData);
-    const {data} = await axios.patch(`http://localhost:8000/api/auth/${orgData.orgId}/orginfo`, formData,
-    {
-      headers: {
-        Authorization: `Bearer ${orgData.orgToken}`
-      }
-    });
-    data.data.token = orgData.orgToken;
-    data.data.userType = 'org';
-    localStorage.setItem(theatrifyUser, JSON.stringify(data.data))
-    console.log(data);
-    if (data.status === 'success') {
-      navigate('/');
-    }
+
+    console.log('Submit');
   };
 
   return (
-    <Section>
-      <LeftContainer
-        heading='Tell us a little more about you'
-        subHeading='Let’s create your organization page using which you will be able to publish past event videos and new event tickets.'
-      />
-      <RightContainer>
-        <InfoForm>
-          <form onSubmit={orgInfoHandler}>
-            <input
-              type='file'
-              name='photo'
-              ref={orgImageInput}
-            />
-            <label htmlFor='orgVision'>Tell us about your groups vision</label>
+    <div className='login-container grid grid-cols-2 gap-x-10 py-2 overflow-hidden overflow-y-scroll'>
+      <div className='welcome rounded-lg p-10 flex flex-col gap-10'>
+        <h2 className='text-2xl font-bold'>theatrify</h2>
+        <h2 className='text-6xl font-bold mt-10'>Tell us a little more about you.</h2>
+        <p className='text-xl'>
+          Let's create your organization page using which you will be able to publish past event videos and new event
+          tickets.
+        </p>
+      </div>
+      <div className='py-10'>
+        <h2 className='text-5xl font-bold mb-5'>Add More Info</h2>
+        <form className='mt-10 pr-20' onSubmit={handleSubmit}>
+          <div className='mb-10'>
+            <p className='mb-2 text-xl'>Organization Image</p>
+            <label
+              htmlFor='org-img'
+              className='rounded-full inline-block h-20 w-20 relative'
+              style={{ background: 'var(--color-gray)' }}
+            >
+              <AddCircle className='h-5 w-5 absolute right-2 bottom-0' />
+              <input ref={orgImage} type='file' id='org-img' className='hidden' />
+            </label>
+          </div>
+
+          <div>
+            <label htmlFor='company-vision' className='block mb-2 text-xl'>
+              Tell us about your company vision
+            </label>
             <textarea
-              name='orgVision'
-              placeholder='Our group aims for and provides to the audience ...'
-              value={orgData.orgVision}
-              onChange={e => setorgData({ ...orgData, [e.target.name]: e.target.value })}
+              className='rounded p-4 max-w-full min-w-full'
+              rows='8'
+              placeholder='My company works on the foundation of...'
+              id='company-vision'
+              value={vision}
+              onChange={e => setVision(e.target.value)}
             ></textarea>
-            <button type='submit'>Finish Set-up</button>
-          </form>
-        </InfoForm>
-      </RightContainer>
-    </Section>
+          </div>
+
+          <Button type='submit' className='mt-8 text-xl py-2.5'>
+            Finish Set-up
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 };
 

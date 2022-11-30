@@ -14,6 +14,7 @@
 :root {
   --color-primary: #0a1e8f;
   --color-dark: #070a0c;
+  --color-gray: #151a1e;
 }
 
 ::-webkit-scrollbar {
@@ -39,13 +40,15 @@ button {
   border-radius: 4px;
 }
 
-input {
-  background-color: #151a1e;
+input,
+textarea {
+  background-color: var(--color-gray);
   color: rgba(255, 255, 255, 0.7);
 }
 
 button,
-input {
+input,
+textarea {
   outline: none;
 }
 

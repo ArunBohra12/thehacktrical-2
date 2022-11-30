@@ -13,7 +13,7 @@ const Navbar = () => {
       <h3 className='logo'>theatrify</h3>
 
       <div className='navbar-links'>
-        <Link to='/home'>Home</Link>
+        <Link to='/'>Home</Link>
         <Link to='/shows'>Shows</Link>
         <Link to='/videos'>Videos</Link>
       </div>
