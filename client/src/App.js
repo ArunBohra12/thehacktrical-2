@@ -14,26 +14,44 @@ import AccessVideo from './pages/AccessVideo/AccessVideo';
 import BookShow from './pages/BookShow/BookShow';
 import StreamVideo from './components/videoStream/StreamVideo';
 import Navbar from './components/Navbar/Navbar';
+import UserContext from './Context/UserContext';
 
 function App() {
+  const { isLoggedIn, user } = UserContext();
+
   return (
     <div className='App'>
       <Navbar />
       <main className='main'>
         <Routes>
-          <Route path='/register' element={<Singup />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/org-info' element={<TellUsMore />} />
           <Route path='/' element={<Home />} />
-          <Route path='/shows' element={<AllShows />} />
-          <Route path='/allvideos' element={<AllVideos />} />
-          <Route path='/credits' element={<Credits />} />
-          <Route path='/me' element={<Profile />} />
-          <Route path='/stream/:videoId' element={<StreamVideo />} />
-          <Route path='/createshow' element={<CreateShow />} />
-          <Route path='/uploadvideo' element={<UploadVideo />} />
-          <Route path='/accessvideo' element={<AccessVideo />} />
-          <Route path='/bookshow' element={<BookShow />} />
+          {isLoggedIn === false ? (
+            <>
+              <Route path='/register' element={<Singup />} />
+              <Route path='/login' element={<Login />} />
+            </>
+          ) : (
+            <>
+              <Route path='/me' element={<Profile />} />
+
+              {user.type === 'org' ? (
+                <>
+                  <Route path='/org-info' element={<TellUsMore />} />
+                  <Route path='/create-show' element={<CreateShow />} />
+                  <Route path='/upload-video' element={<UploadVideo />} />
+                </>
+              ) : (
+                <>
+                  <Route path='/shows' element={<AllShows />} />
+                  <Route path='/videos' element={<AllVideos />} />
+                  <Route path='/credits' element={<Credits />} />
+                  <Route path='/stream/:videoId' element={<StreamVideo />} />
+                  <Route path='/access-video' element={<AccessVideo />} />
+                  <Route path='/book-show' element={<BookShow />} />
+                </>
+              )}
+            </>
+          )}
         </Routes>
       </main>
     </div>

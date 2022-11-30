@@ -26,18 +26,12 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords are not the same!',
-    },
-  },
   accessedVideos: {
     type: [{ type: mongoose.Schema.ObjectId, ref: 'Video' }],
+  },
+  type: {
+    type: String,
+    default: 'user',
   },
   credits: {
     type: Number,
@@ -50,7 +44,6 @@ userSchema.pre('save', async function (next) {
 
   this.password = await bcrypt.hash(this.password, 12);
 
-  this.passwordConfirm = undefined;
   next();
 });
 

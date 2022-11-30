@@ -115,7 +115,7 @@ export const bookShowTicket = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: show,
-    user
+    user,
   });
 });
 
@@ -133,5 +133,15 @@ export const likeAShow = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: newShow,
+  });
+});
+
+export const getAllOrgShows = catchAsync(async (req, res, next) => {
+  const { orgId } = req.params;
+  const allShows = await Shows.find({ organisation: orgId });
+
+  res.status(200).json({
+    status: 'success',
+    data: allShows,
   });
 });

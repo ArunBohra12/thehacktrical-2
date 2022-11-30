@@ -8,6 +8,7 @@ import {
   bookShowTicket,
   likeAShow,
   uploadShowImage,
+  getAllOrgShows,
 } from '../controllers/showsControllers.js';
 import { restrictToOrg, restrictToUser } from '../controllers/authController.js';
 import { getAllShowReviews } from '../controllers/reviewController.js';
@@ -15,6 +16,8 @@ import { getAllShowReviews } from '../controllers/reviewController.js';
 const router = express.Router();
 
 router.get('/upcoming', getUpcomingShows);
+
+router.get('/org/:orgId', getAllOrgShows);
 
 router.route('/').get(getAllShows).post(restrictToOrg, uploadShowImage, createShow);
 

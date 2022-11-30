@@ -1,20 +1,41 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import Button from '../../components/Button/Button';
 import FormGroup from '../../components/FormGroup/FormGroup';
+import UserContext from '../../Context/UserContext';
+import { register } from '../../api/auth';
+import { saveToLocalStorage } from '../../Utils/Storage';
 
 const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { refreshData } = UserContext();
+  const navigate = useNavigate();
 
-  const handleSignup = e => {
+  const handleSignup = async e => {
     e.preventDefault();
 
-    const type = document.querySelector('input[name="user-type"]:checked').value;
-    console.log(type);
+    const userType = document.querySelector('input[name="user-type"]:checked').value;
 
-    // signup api call
+    if (!name || !email || !password || !userType) {
+      return alert('Please provide all the values');
+    }
+
+    const data = await register({ name, email, password, userType });
+
+    if (Array.isArray(data) && data[0] === false) {
+      alert(data[1]);
+      return;
+    }
+
+    saveToLocalStorage('token', data.token);
+    saveToLocalStorage('user', JSON.stringify(data.user));
+    refreshData();
+
+    if (userType === 'org') navigate('/org-info');
+    else navigate('/me');
   };
 
   return (
@@ -67,7 +88,7 @@ const Signup = () => {
               label='Audience'
               id='login-audience'
               type='radio'
-              value='audience'
+              value='user'
               defaultChecked={true}
               name='user-type'
             />
@@ -77,7 +98,7 @@ const Signup = () => {
               label='Organizer'
               id='login-organizer'
               type='radio'
-              value='organizer'
+              value='org'
               name='user-type'
             />
           </div>

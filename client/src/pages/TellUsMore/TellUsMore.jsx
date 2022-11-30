@@ -1,16 +1,47 @@
-import { useState } from 'react';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { updateOrgInfo } from '../../api/auth';
+
 import { ReactComponent as AddCircle } from '../../assets/SVGs/AddCircle.svg';
 import Button from '../../components/Button/Button';
+import UserContext from '../../Context/UserContext';
+import { saveToLocalStorage } from '../../Utils/Storage';
 
 const TellUsMore = () => {
   const orgImage = useRef(null);
   const [vision, setVision] = useState('');
+  const [image, setImage] = useState('');
+  const { refreshData } = UserContext();
 
-  const handleSubmit = e => {
+  const navigate = useNavigate();
+
+  const handleImageUpload = () => {
+    const [file] = orgImage.current.files;
+    if (file) setImage(URL.createObjectURL(file));
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    console.log('Submit');
+    const [photo] = orgImage.current.files;
+
+    if (!photo || !vision) return alert('Please provide all the details');
+
+    const formData = new FormData();
+    formData.append('photo', photo);
+    formData.append('orgVision', vision);
+
+    const data = await updateOrgInfo(formData);
+
+    if (Array.isArray(data) && data[0] === false) {
+      alert(data[1]);
+      return;
+    }
+
+    saveToLocalStorage('user', JSON.stringify(data.data));
+    refreshData();
+
+    navigate('/me');
   };
 
   return (
@@ -30,11 +61,18 @@ const TellUsMore = () => {
             <p className='mb-2 text-xl'>Organization Image</p>
             <label
               htmlFor='org-img'
-              className='rounded-full inline-block h-20 w-20 relative'
-              style={{ background: 'var(--color-gray)' }}
+              className='rounded-full inline-block h-20 w-20 relative bg-cover'
+              style={{ backgroundColor: 'var(--color-gray)', backgroundImage: `url(${image})` }}
             >
               <AddCircle className='h-5 w-5 absolute right-2 bottom-0' />
-              <input ref={orgImage} type='file' id='org-img' className='hidden' />
+              <input
+                ref={orgImage}
+                type='file'
+                id='org-img'
+                className='hidden'
+                accept='image/*'
+                onChange={handleImageUpload}
+              />
             </label>
           </div>
 

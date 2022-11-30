@@ -1,16 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import FormGroup from '../../components/FormGroup/FormGroup';
 import Button from '../../components/Button/Button';
+import UserContext from '../../Context/UserContext';
+import { login } from '../../api/auth';
+import { saveToLocalStorage } from '../../Utils/Storage';
 
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { refreshData } = UserContext();
 
-  const handleLogin = e => {
+  const navigate = useNavigate();
+
+  const handleLogin = async e => {
     e.preventDefault();
+
+    const userType = document.querySelector('input[name="user-type"]:checked').value;
+
+    if (!email || !password || !userType) {
+      return alert('Please provide all the values');
+    }
+
+    const data = await login({ email, password, userType });
+
+    if (Array.isArray(data) && data[0] === false) {
+      alert(data[1]);
+      return;
+    }
+
+    saveToLocalStorage('token', data.token);
+    saveToLocalStorage('user', JSON.stringify(data.user));
+    refreshData();
+
+    navigate('/me');
   };
 
   return (
@@ -49,6 +75,28 @@ const Login = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+
+          <p className='mt-4 text-xl'>Log in as</p>
+          <div className='flex gap-10 mt-2'>
+            <FormGroup
+              className='flex flex-row-reverse items-center gap-x-4'
+              label='Audience'
+              id='login-audience'
+              type='radio'
+              value='user'
+              defaultChecked={true}
+              name='user-type'
+            />
+
+            <FormGroup
+              className='flex flex-row-reverse items-center gap-x-4'
+              label='Organizer'
+              id='login-organizer'
+              type='radio'
+              value='org'
+              name='user-type'
+            />
+          </div>
 
           <Button type='submit' className='mt-8 text-xl py-2.5'>
             Login to Account

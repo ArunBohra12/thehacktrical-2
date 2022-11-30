@@ -160,3 +160,13 @@ export const accessVideo = catchAsync(async (req, res, next) => {
     data: newUser,
   });
 });
+
+export const getAllOrgVideos = catchAsync(async (req, res, next) => {
+  const { orgId } = req.params;
+  const allVideos = await Video.find({ organisation: orgId });
+
+  res.status(200).json({
+    status: 'success',
+    data: allVideos,
+  });
+});

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 const orgSchema = new mongoose.Schema({
   name: {
@@ -12,30 +12,24 @@ const orgSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Please provide your email"],
+    required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
     type: String,
-    default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+    default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
   },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
     minlength: 8,
-    select: false
+    select: false,
   },
-  passwordConfirm: {
+  type: {
     type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function(el) {
-        return el === this.password;
-      },
-      message: 'Passwords are not the same!'
-    }
+    default: 'org',
   },
   orgVision: {
     type: String,
@@ -43,19 +37,15 @@ const orgSchema = new mongoose.Schema({
   },
 });
 
-orgSchema.pre('save', async function(next) {
+orgSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 12);
 
-  this.passwordConfirm = undefined;
   next();
 });
 
-orgSchema.methods.correctPassword = async function(
-  candidatePassword,
-  userPassword
-) {
+orgSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 

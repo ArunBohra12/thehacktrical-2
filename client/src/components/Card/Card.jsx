@@ -9,7 +9,7 @@ const Card = ({ image, heading, subHeading, summary = '', link, styles }) => {
         <div className='px-6 py-4'>
           <div className='font-bold text-xl mb-2'>{heading}</div>
           <div className='font-bold text-l mb-2'>{subHeading}</div>
-          {summary ? <p className='text-gray-700 text-base'>{summary}</p> : null}
+          {summary ? <p className='text-base'>{summary}</p> : null}
         </div>
       </div>
     </Link>
