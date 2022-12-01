@@ -170,3 +170,23 @@ export const getAllOrgVideos = catchAsync(async (req, res, next) => {
     data: allVideos,
   });
 });
+
+export const hasAccessVideo = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select('+accessedVideos');
+
+  if (!user) {
+    return res.status(400).json({
+      status: 'fail',
+      message: "User doesn't exist",
+    });
+  }
+
+  const hasAccessToGivenVideo = user.accessedVideos.includes(req.params.videoId);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      hasAccess: hasAccessToGivenVideo,
+    },
+  });
+});

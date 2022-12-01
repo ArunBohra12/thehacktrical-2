@@ -1,39 +1,43 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import ShowTile from '../../components/HomeComp/ShowTitle/ShowTile'
-import Navbar from '../../components/Navbar/Navbar'
-import { RecentShows, TheatreTiles } from '../Home/Home.styles'
+import React, { useEffect, useState } from 'react';
+import Card from '../../components/Card/Card';
+import { getAllShows } from '../../api/videosAndShows';
 
 const AllShows = () => {
-  const [allShows, setAllShows] = useState([])
+  const [allShows, setAllShows] = useState([]);
 
   useEffect(() => {
-    async function fetchAllShows () {
-      const {data} = await axios.get('http://localhost:8000/api/shows');
-      setAllShows(data.data)
-    }
-    fetchAllShows()
-  }, [])
-  
+    (async () => {
+      const data = await getAllShows();
+
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
+      }
+
+      setAllShows(data.data);
+    })();
+  }, []);
+
   return (
-    <>
-      <Navbar/>
+    <div className='py-10'>
+      <h1 className='text-4xl font-bold my-10'>Shows</h1>
 
-      <RecentShows>
-          <h1>All Shows</h1>
+      {allShows.length === 0 && <p className='text-xl'>No shows currently...</p>}
 
-          <TheatreTiles>
-            {
-              allShows.map((show,index) => {
-                return (
-                  <ShowTile key={index} id={show._id} img={show.photo} title={show.name} venue={show.location} description={show.description} price={show.price} date={show.date}/>
-                )
-              })
-            }
-          </TheatreTiles>      
-      </RecentShows>
-    </>
-  )
-}
+      <div className='grid grid-cols-4 gap-20'>
+        {allShows.map(show => (
+          <Card
+            key={show._id}
+            image={show.photo}
+            heading={show.name}
+            summary={`Location: ${show.location}`}
+            subHeading={`Price: ${show.price}C`}
+            link={`/access-show/${show._id}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default AllShows
+export default AllShows;

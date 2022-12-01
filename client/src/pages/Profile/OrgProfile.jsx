@@ -52,9 +52,8 @@ const OrgProfile = ({ id }) => {
       </div>
       <div className=' mt-20'>
         <h3 className='my-8 text-2xl font-bold'>Uploaded Videos</h3>
+        {videos.length === 0 && <p className='text-xl'>No uploaded videos...</p>}
         <div className='grid grid-cols-4 gap-20'>
-          {videos.length === 0 && <p className='text-xl'>No uploaded videos...</p>}
-
           {videos.map(video => (
             <div key={video._id}>
               <Card

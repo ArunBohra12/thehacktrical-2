@@ -1,83 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Navbar, { CreditSvg } from '../../components/Navbar/Navbar';
-import { CheckoutForm, Pay, Price, Section, VideoSummary } from './AccessVideo.styles';
-import dummyImg from '../../assets/ShowImgs/jane eyre.jpg';
-import axios from 'axios';
-import { theatrifyUser } from '../../Utils/GlobalConstants';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+import { ReactComponent as CreditsLogo } from '../../assets/SVGs/Credits.svg';
+import UserContext from '../../Context/UserContext';
+import Button from '../../components/Button/Button';
+import { accessVideo, getOneVideo, hasAccessToVideo } from '../../api/videosAndShows';
+import { saveToLocalStorage } from '../../Utils/Storage';
 
 const AccessVideo = () => {
-  const [videoDetails, setvideoDetails] = useState({
-    id: '',
-    description: '',
-    price: '',
-    name: '',
-    img: ''
-  })
-
-  const [btnText, setbtnText] = useState('Checkout')
-  const [userData, setuserData] = useState({})
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem(theatrifyUser));
-    setuserData(userData)
-  }, [])
-
-  const location = useLocation();
+  const { videoId } = useParams();
+  const [video, setVideo] = useState(null);
+  const [hasVideoAccess, setHasVideoAccess] = useState(false);
+  const { user, refreshData } = UserContext();
 
   useEffect(() => {
-    setvideoDetails({
-      id: location.state.videoId,
-      description: location.state.videoDescription,
-      price: location.state.videoPrice,
-      name: location.state.videoName,
-      img: location.state.videoImg
-    })
-  }, []);
+    (async () => {
+      const data = await getOneVideo(videoId);
 
-  const handleCheckout = async e => {
-    e.preventDefault();
-    
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
       }
-    }
-    // {{BASE_URL}}/videos/accessVideo/63830418c552cfb2184d1c7a
-    const {data} = await axios.post(`http://localhost:8000/api/videos/accessVideo/${videoDetails.id}`, {}, config)
-    console.log(data);
-    if (data.status === 'success') {
-      setbtnText('Checked 🤩')
-    }
+
+      setVideo(data.data);
+    })();
+  }, [videoId]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await hasAccessToVideo(videoId);
+
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
+      }
+
+      setHasVideoAccess(data.data.hasAccess);
+    })();
+  }, [videoId]);
+
+  const purchaseVideo = () => {
+    (async () => {
+      const data = await accessVideo(video._id);
+
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
+      }
+
+      saveToLocalStorage('user', JSON.stringify(data.data));
+      setHasVideoAccess(true);
+      refreshData();
+    })();
   };
 
+  if (video === null) return <></>;
+
   return (
-    <>
-      <Navbar />
-      <Section>
-        <VideoSummary>
-          <h1>Order Summary</h1>
-          <img src={videoDetails.img} alt='' />
-          <h2>{videoDetails.name}</h2>
-          <p>
-            {videoDetails.description}
-          </p>
-        </VideoSummary>
-        <CheckoutForm>
-          <form onSubmit={handleCheckout}>
-            <h1>Payment Details</h1>
-            <h2>{videoDetails.name}</h2>
-            <Pay>
-              <Price>
-                <CreditSvg />
-                <span>{videoDetails.price} Credits!</span>
-              </Price>
-              <h3>You have {userData.credits} credits left</h3>
-            </Pay>
-            <button type='submit'>{btnText}</button>
-          </form>
-        </CheckoutForm>
-      </Section>
-    </>
+    <div className='flex gap-10 py-10'>
+      <div className='w-1/2'>
+        <h2 className='text-4xl font-bold my-10'>{video.name}</h2>
+        <img src={video.thumbnail} alt={video.name} className='w-full rounded' />
+      </div>
+      <div className='w-1/2 bg-[#151A1E] p-10 rounded'>
+        <h2 className='text-4xl font-bold mb-10'>Order Summary</h2>
+        <h3 className='text-2xl font-bold my-5'>Get access to - {video.name}</h3>
+        <p className='text-lg my-8'>{video.description}</p>
+        <div className='flex gap-5 items-center'>
+          <Button className='!bg-[#070a0c] flex gap-2 items-center text-xl'>
+            <CreditsLogo />
+            {video.price}&nbsp; Credits!
+          </Button>
+          <p className='text-lg'>You have {user.credits} credits left!</p>
+        </div>
+
+        {hasVideoAccess === false ? (
+          <Button className='text-2xl mt-10 w-full py-2' onClick={purchaseVideo}>
+            Purchase!
+          </Button>
+        ) : (
+          <Link to={`/stream/${videoId}`}>
+            <Button className='text-2xl mt-10 w-full py-2' onClick={purchaseVideo}>
+              Watch Video
+            </Button>
+          </Link>
+        )}
+      </div>
+    </div>
   );
 };
 

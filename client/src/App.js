@@ -24,7 +24,6 @@ function App() {
       <Navbar />
       <main className='main'>
         <Routes>
-          <Route path='/' element={<Home />} />
           {isLoggedIn === false ? (
             <>
               <Route path='/register' element={<Singup />} />
@@ -42,11 +41,12 @@ function App() {
                 </>
               ) : (
                 <>
+                  <Route path='/' element={<AllShows />} />
                   <Route path='/shows' element={<AllShows />} />
                   <Route path='/videos' element={<AllVideos />} />
                   <Route path='/credits' element={<Credits />} />
                   <Route path='/stream/:videoId' element={<StreamVideo />} />
-                  <Route path='/access-video' element={<AccessVideo />} />
+                  <Route path='/access-video/:videoId' element={<AccessVideo />} />
                   <Route path='/book-show' element={<BookShow />} />
                 </>
               )}
