@@ -9,6 +9,7 @@ import {
   likeAShow,
   uploadShowImage,
   getAllOrgShows,
+  getOneShow,
 } from '../controllers/showsControllers.js';
 import { restrictToOrg, restrictToUser } from '../controllers/authController.js';
 import { getAllShowReviews } from '../controllers/reviewController.js';
@@ -21,10 +22,10 @@ router.get('/org/:orgId', getAllOrgShows);
 
 router.route('/').get(getAllShows).post(restrictToOrg, uploadShowImage, createShow);
 
-router.route('/:showId').delete(deleteShow);
+router.route('/:showId').get(getOneShow).delete(deleteShow);
 router.get('/:showId/getReviews', getAllShowReviews);
 
 router.patch('/like/:showId', restrictToUser, likeAShow);
-router.post('/:showId/bookTicket', restrictToUser, bookShowTicket);
+router.post('/:showId/book-ticket', restrictToUser, bookShowTicket);
 
 export default router;

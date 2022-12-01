@@ -145,3 +145,14 @@ export const getAllOrgShows = catchAsync(async (req, res, next) => {
     data: allShows,
   });
 });
+
+export const getOneShow = catchAsync(async (req, res) => {
+  const { showId } = req.params;
+
+  const showDetails = await Shows.findById(showId);
+
+  res.status(200).json({
+    status: 'success',
+    data: showDetails,
+  });
+});
