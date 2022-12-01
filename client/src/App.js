@@ -47,7 +47,7 @@ function App() {
                   <Route path='/credits' element={<Credits />} />
                   <Route path='/stream/:videoId' element={<StreamVideo />} />
                   <Route path='/access-video/:videoId' element={<AccessVideo />} />
-                  <Route path='/book-show' element={<BookShow />} />
+                  <Route path='/book-show/:showId' element={<BookShow />} />
                 </>
               )}
             </>

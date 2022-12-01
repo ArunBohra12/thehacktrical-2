@@ -32,7 +32,7 @@ const AllShows = () => {
             heading={show.name}
             summary={`Location: ${show.location}`}
             subHeading={`Price: ${show.price}C`}
-            link={`/access-show/${show._id}`}
+            link={`/book-show/${show._id}`}
           />
         ))}
       </div>

@@ -87,8 +87,6 @@ export const getUnlockedVideos = async () => {
 
     const { data } = await axios.get(`${API_URL}/user/videos`, config);
 
-    console.log(data);
-
     if (data.status === 'success') return data;
 
     return [false, 'Sorry, something went wrong! Please try again'];
@@ -141,6 +139,36 @@ export const uploadVideo = async formData => {
     };
 
     const { data } = await axios.post(`${API_URL}/videos`, formData, config);
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const getOneShow = async showId => {
+  try {
+    const { data } = await axios.get(`${API_URL}/shows/${showId}`);
+
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const bookShow = async showId => {
+  try {
+    const reqBody = {};
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getFromLocalStorage('token')}`,
+      },
+    };
+    const { data } = await axios.post(`${API_URL}/shows/${showId}/book-ticket`, reqBody, config);
+
     if (data.status === 'success') return data;
 
     return [false, 'Sorry, something went wrong! Please try again'];

@@ -1,100 +1,77 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
-import Navbar, { CreditSvg } from '../../components/Navbar/Navbar'
-import { theatrifyUser } from '../../Utils/GlobalConstants';
-import { CheckoutForm, Pay, Price, Section, VideoSummary } from './BookShow.styles';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { ReactComponent as CreditsLogo } from '../../assets/SVGs/Credits.svg';
+import UserContext from '../../Context/UserContext';
+import Button from '../../components/Button/Button';
+import { bookShow, getOneShow } from '../../api/videosAndShows';
+import { saveToLocalStorage } from '../../Utils/Storage';
 
 const BookShow = () => {
-
-  const [showDetails, setShowDetails] = useState({
-    id: '',
-    description: '',
-    price: '',
-    title: '',
-    venue: '',
-    img: '',
-    date: '',
-    // organisation: ''
-  })
-
-  const [btnText, setBtnText] = useState('Buy Tickets')
-
-  const [userData, setuserData] = useState({})
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem(theatrifyUser));
-    setuserData(userData)
-  }, [])
-
-  const location = useLocation();
+  const { showId } = useParams();
+  const [show, setShow] = useState(null);
+  const [hasShowAccess, setHasShowAccess] = useState(false);
+  const { user, refreshData } = UserContext();
 
   useEffect(() => {
-    setShowDetails({
-      id: location.state.id,
-      description: location.state.description,
-      price: location.state.price,
-      title: location.state.title,
-      venue: location.state.venue,
-      img: location.state.img,
-      date: location.state.date,
-      // organisation: location.state.organisation
-    })
+    (async () => {
+      const data = await getOneShow(showId);
 
-    // const data = axios.get('')
-  }, []);
-
-  
-
-  const ticketCheckouthandler = async e => {
-    e.preventDefault();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
       }
-    }
-    const {data} = await axios.post(`http://localhost:8000/api/shows/${showDetails.id}/bookTicket`, {}, config)
-    console.log(data);
-    // data.user.token = userData.token
-    console.log(userData.credits);
-    let Credit = userData.credits - showDetails.price
-    userData.credits = Credit
-    localStorage.setItem(theatrifyUser, JSON.stringify(userData))
-    if (data.status === 'success') {
-      setBtnText('✨ Sold ✨')
-    }
+
+      setShow(data.data);
+    })();
+  }, [showId]);
+
+  const accessShow = () => {
+    (async () => {
+      const data = await bookShow(show._id);
+
+      if (Array.isArray(data) && data[0] === false) {
+        alert(data[1]);
+        return;
+      }
+
+      setHasShowAccess(true);
+      refreshData();
+      alert('Purchase successful');
+    })();
   };
 
-  return (
-    <>
-    <Navbar/>
-    <Section>
-        <VideoSummary>
-          <h1>Buy Show Tickets</h1>
-          <img src={showDetails.img} alt='' />
-          <h2>{showDetails.title}</h2>
-          <h3>@ {showDetails.venue}</h3>
-          <p>
-            {showDetails.description}
-          </p>
-        </VideoSummary>
-        <CheckoutForm>
-          <form onSubmit={ticketCheckouthandler}>
-            <h1>Payment Details</h1>
-            <h2>{showDetails.title}</h2>
-            <Pay>
-              <Price>
-                <CreditSvg />
-                <span>{showDetails.price} Credits!</span>
-              </Price>
-              <h3>You have {userData.credits} credits left</h3>
-            </Pay>
-            <button type='submit'>{btnText}</button>
-          </form>
-        </CheckoutForm>
-      </Section>
-    </>
-  )
-}
+  if (show === null) return <></>;
 
-export default BookShow
+  return (
+    <div className='flex gap-10 py-10'>
+      <div className='w-1/2'>
+        <h2 className='text-4xl font-bold my-10'>{show.name}</h2>
+        <p className='text-xl my-2'>{show.location}</p>
+        <img src={show.photo} alt={show.name} className='w-full rounded' />
+      </div>
+      <div className='w-1/2 bg-[#151A1E] p-10 rounded'>
+        <h2 className='text-4xl font-bold mb-10'>Order Summary</h2>
+        <h3 className='text-2xl font-bold my-5'>Get access to - {show.name}</h3>
+        <p className='text-lg my-8'>{show.description}</p>
+        <div className='flex gap-5 items-center'>
+          <Button className='!bg-[#070a0c] flex gap-2 items-center text-xl'>
+            <CreditsLogo />
+            {show.price}&nbsp; Credits!
+          </Button>
+          <p className='text-lg'>You have {user.credits} credits left!</p>
+        </div>
+
+        {hasShowAccess === false ? (
+          <Button className='text-2xl mt-10 w-full py-2' onClick={accessShow}>
+            Purchase!
+          </Button>
+        ) : (
+          <Button className='text-2xl mt-10 w-full py-2'>Sold!</Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BookShow;
