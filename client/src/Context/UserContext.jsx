@@ -34,7 +34,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     getUserDetails();
-  }, [user._id]);
+  }, []);
 
   const value = {
     user,

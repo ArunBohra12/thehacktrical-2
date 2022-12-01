@@ -5,7 +5,6 @@ import { ReactComponent as CreditsLogo } from '../../assets/SVGs/Credits.svg';
 import UserContext from '../../Context/UserContext';
 import Button from '../../components/Button/Button';
 import { bookShow, getOneShow } from '../../api/videosAndShows';
-import { saveToLocalStorage } from '../../Utils/Storage';
 
 const BookShow = () => {
   const { showId } = useParams();
