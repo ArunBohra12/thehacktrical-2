@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { getUser } from '../../api/auth';
-import Button from '../../components/Button/Button';
-import UserContext from '../../Context/UserContext';
 import { removeFromLocalStorage } from '../../Utils/Storage';
+import Button from '../../components/Button/Button';
 import OrgProfile from './OrgProfile';
 import UserProfile from './UserProfile';
+import UserContext from '../../Context/UserContext';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -54,17 +54,20 @@ const Profile = () => {
               Log Out
             </p>
           </div>
-          {user.type === 'org' && <p className='mt-8 text-xl'>{user.orgVision}</p>}
-
-          {user.type === 'org' && (
-            <div className='mt-10 flex gap-5'>
-              <Link to='/create-show'>
-                <Button>Create Shows</Button>
-              </Link>
-              <Link to='/upload-video'>
-                <Button>Upload Videos</Button>
-              </Link>
-            </div>
+          {user.type === 'org' ? (
+            <>
+              <p className='mt-8 text-xl'>{user.orgVision}</p>
+              <div className='mt-10 flex gap-5'>
+                <Link to='/create-show'>
+                  <Button>Create Shows</Button>
+                </Link>
+                <Link to='/upload-video'>
+                  <Button>Upload Videos</Button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <p className='text-2xl mt-4'>Total Credits: {user.credits}</p>
           )}
         </div>
       </div>

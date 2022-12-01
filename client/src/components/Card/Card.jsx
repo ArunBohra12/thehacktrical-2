@@ -4,7 +4,7 @@ const Card = ({ image, heading, subHeading, summary = '', link, styles }) => {
   return (
     <Link to={link}>
       <div style={{ background: '#1e272e', ...styles }} className='max-w-sm rounded overflow-hidden shadow-lg'>
-        <img className='w-full' src={image} alt={heading} />
+        <img className='w-full h-[200px] object-cover' src={image} alt={heading} />
 
         <div className='px-6 py-4'>
           <div className='font-bold text-xl mb-2'>{heading}</div>

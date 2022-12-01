@@ -6,7 +6,7 @@ const OrgProfile = ({ id }) => {
   const [videos, setVideos] = useState([]);
   const [shows, setShows] = useState([]);
 
-  // To set videos data
+  // To set videos & shows data
   useEffect(() => {
     (async () => {
       const videosData = await getAllVideos(id);
@@ -24,11 +24,6 @@ const OrgProfile = ({ id }) => {
       if (videosData.data) setVideos(videosData.data);
     })();
   }, [id]);
-
-  // To set shows data
-  useEffect(() => {
-    (async () => {})();
-  }, []);
 
   return (
     <div className='pb-20'>

@@ -16,7 +16,7 @@ const Navbar = () => {
       <h3 className='logo'>theatrify</h3>
 
       <div className='navbar-links'>
-        {user?.type !== 'org' && (
+        {user?.type === 'user' && (
           <>
             <Link to='/shows'>Shows</Link>
             <Link to='/videos'>Videos</Link>

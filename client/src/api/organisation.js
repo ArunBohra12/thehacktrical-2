@@ -10,7 +10,7 @@ export const getAllShows = async orgId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -22,6 +22,6 @@ export const getAllVideos = async orgId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };

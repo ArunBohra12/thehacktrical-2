@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 import User from '../models/userModel.js';
+import Shows from '../models/showsModel.js';
 import catchAsync from './catchAsync.js';
 
 const CLIENT_BASE_URL = 'http://localhost:3000';
@@ -74,7 +75,16 @@ export const getAllAccessedVideos = catchAsync(async (req, res) => {
   });
 
   res.status(200).json({
-    status: 200,
+    status: 'success',
     data: user.accessedVideos,
+  });
+});
+
+export const getAllBookedShows = catchAsync(async (req, res) => {
+  const allShows = await Shows.find({ bookings: { $in: [req.user._id] } }).select('+bookings');
+
+  res.status(200).json({
+    status: 'success',
+    data: allShows,
   });
 });

@@ -1,7 +1,6 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Singup from './pages/Signup/Singup';
-import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import TellUsMore from './pages/TellUsMore/TellUsMore';
 import AllShows from './pages/AllShows/AllShows';
@@ -28,6 +27,7 @@ function App() {
             <>
               <Route path='/register' element={<Singup />} />
               <Route path='/login' element={<Login />} />
+              <Route path='*' element={<Navigate to='/login' replace />} />
             </>
           ) : (
             <>

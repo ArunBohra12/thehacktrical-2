@@ -11,7 +11,7 @@ export const getAllVideos = async () => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -23,7 +23,7 @@ export const getOneVideo = async videoId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -42,7 +42,7 @@ export const hasAccessToVideo = async videoId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -61,7 +61,7 @@ export const accessVideo = async videoId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -73,6 +73,78 @@ export const getAllShows = async () => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const getUnlockedVideos = async () => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getFromLocalStorage('token')}`,
+      },
+    };
+
+    const { data } = await axios.get(`${API_URL}/user/videos`, config);
+
+    console.log(data);
+
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const getBookedShows = async () => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getFromLocalStorage('token')}`,
+      },
+    };
+
+    const { data } = await axios.get(`${API_URL}/user/shows`, config);
+
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const createShow = async formData => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getFromLocalStorage('token')}`,
+      },
+    };
+
+    const { data } = await axios.post(`${API_URL}/shows`, formData, config);
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
+  }
+};
+
+export const uploadVideo = async formData => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getFromLocalStorage('token')}`,
+      },
+    };
+
+    const { data } = await axios.post(`${API_URL}/videos`, formData, config);
+    if (data.status === 'success') return data;
+
+    return [false, 'Sorry, something went wrong! Please try again'];
+  } catch (error) {
+    return [false, handleAsyncError(error)];
   }
 };

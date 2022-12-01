@@ -56,7 +56,7 @@ export const updateOrgInfo = async formData => {
 
     return data;
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };
 
@@ -68,6 +68,6 @@ export const getUser = async userId => {
 
     return [false, 'Sorry, something went wrong! Please try again'];
   } catch (error) {
-    handleAsyncError(error);
+    return [false, handleAsyncError(error)];
   }
 };

@@ -8,6 +8,10 @@ const globalErrorHandler = (err, req, res, next) => {
     errObj.stack = err.stack;
   }
 
+  if (process.env.NODE_ENV === 'production') {
+    errObj.message = 'Sorry, something went wrong! Please try again.';
+  }
+
   res.status(500).json(errObj);
 };
 

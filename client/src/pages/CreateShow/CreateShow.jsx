@@ -1,27 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import Navbar from '../../components/Navbar/Navbar';
-import { theatrifyUser } from '../../Utils/GlobalConstants';
-import { Section } from './CreateShow.styles';
+import React, { useRef, useState } from 'react';
+
+import FormGroup from '../../components/FormGroup/FormGroup';
+import Button from '../../components/Button/Button';
+import { createShow } from '../../api/videosAndShows';
+
+const defaultFormValues = {
+  name: '',
+  location: '',
+  date: '',
+  description: '',
+  price: 0,
+};
 
 const CreateShow = () => {
-  const [showDetails, setShowDetails] = useState({
-    name: '',
-    location: '',
-    date: '',
-    description: '',
-    price: 0,
-  });
+  const [showDetails, setShowDetails] = useState(defaultFormValues);
 
   const thumbnailInput = useRef(null);
-  const [userData, setuserData] = useState({})
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem(theatrifyUser));
-    setuserData(userData)
-  }, [])
-  const inputHandler = (e) => {
-    setShowDetails({...showDetails, [e.target.name]: e.target.value})
-  }
+
+  const inputHandler = e => {
+    setShowDetails({ ...showDetails, [e.target.name]: e.target.value });
+  };
+
   const submitHandler = async e => {
     e.preventDefault();
 
@@ -32,37 +31,91 @@ const CreateShow = () => {
     formData.append('description', showDetails.description);
     formData.append('price', showDetails.price);
     formData.append('photo', thumbnailInput.current.files[0]);
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
-      }
+
+    const data = await createShow(formData);
+
+    if (Array.isArray(data) && data[0] === false) {
+      alert(data[1]);
+      return;
     }
 
-    const {data} = await axios.post(`http://localhost:8000/api/shows`, formData, config);
-    console.log(data);
+    alert('Show created successfully');
+    setShowDetails(defaultFormValues);
   };
+
   return (
-    <>
-      <Navbar />
-      <Section>
-        <form onSubmit={submitHandler}>
-          <label htmlFor="name" className="label">Event Name</label>
-          <input type='text' name='name' id='name' value={showDetails.name} onChange={inputHandler} placeholder="A cool name for your event" />
-          <label htmlFor="thumbnail" className="label">Event Thumbnail</label>
-          <div className="input-btn">
-          <input type="file" ref={thumbnailInput} id="thumbnail" />Choose a file</div>
-          <label htmlFor="location" className="label">Event Location</label>
-          <input type='text' name='location' id='location' value={showDetails.location} onChange={inputHandler} />
-          <label htmlFor="date" className="label">Event Date</label>
-          <input type='date' name='date' id='date' value={showDetails.date} onChange={inputHandler} />
-          <label htmlFor="description" className="label">Event Description</label>
-          <textarea name='description' id='description' cols='30' rows='10' value={showDetails.description} onChange={inputHandler} placeholder="A brief description that includes everything your audience needs to know."/>
-          <label htmlFor="price" className="label">Event Price (in credits)</label>
-          <input type='number' name='price' id='price' value={showDetails.price} onChange={inputHandler} defaultValue="50" />
-          <button type='submit' className='main-btn'>Create Show</button>
-        </form>
-      </Section>
-    </>
+    <div className='py-10'>
+      <h1 className='text-4xl font-bold mb-10'>Create a Show</h1>
+
+      <form onSubmit={submitHandler} className='w-[70%]'>
+        <FormGroup
+          label='Event Name'
+          id='event-name'
+          name='name'
+          value={showDetails.name}
+          onChange={inputHandler}
+          placeholder='A name for your event'
+          className='mb-8'
+        />
+
+        <div className='mb-8 text-xl'>
+          <span className='mr-4'>Event Thumbnail</span>
+          <Button className='ml-4' type='button'>
+            <label htmlFor='thumbnail' className='mb-2'>
+              Choose an Image
+            </label>
+          </Button>
+          <input type='file' accept='image/*' ref={thumbnailInput} id='thumbnail' className='hidden' />
+        </div>
+
+        <FormGroup
+          label='Location'
+          id='event-location'
+          name='location'
+          placeholder='Event location'
+          value={showDetails.location}
+          onChange={inputHandler}
+          className='mb-8'
+        />
+
+        <FormGroup
+          label='Event Date'
+          id='event-date'
+          name='date'
+          type='date'
+          value={showDetails.date}
+          onChange={inputHandler}
+          className='mb-8'
+        />
+
+        <div className='mb-8'>
+          <label htmlFor='company-vision' className='block mb-2 text-xl'>
+            Event description
+          </label>
+          <textarea
+            className='rounded p-4 max-w-full min-w-full'
+            rows='5'
+            name='description'
+            id='description'
+            placeholder='A brief description that includes everything your audience needs to know.'
+            value={showDetails.description}
+            onChange={inputHandler}
+          ></textarea>
+        </div>
+
+        <FormGroup
+          label='Price'
+          id='event-price'
+          name='price'
+          type='number'
+          value={showDetails.price}
+          onChange={inputHandler}
+          className='mb-8'
+        />
+
+        <Button className='w-full my-5 text-xl py-2'>Create Show</Button>
+      </form>
+    </div>
   );
 };
 
